@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Building a task management webapp with nextjs for the frontend and express for the backend",
+  "license": "ISC",
+  "author": "Jawed",
+  "type": "commonjs",
+  "main": "src/server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.ts",
+    "dev": "nodemon --watch src/**/* --exec ts-node src/server.ts"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
+    "express": "^5.1.0",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2"
+  }
+}
