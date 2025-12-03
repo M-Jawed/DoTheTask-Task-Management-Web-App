@@ -1,5 +1,11 @@
+import Board from "./components/Board";
+import Header from "./components/Header";
+
 export default function Home() {
   return (
-    <h1>Homepage</h1>
+    <main className="flex flex-col h-screen w-full">
+      <Header />
+      <Board />
+    </main>
   );
 }

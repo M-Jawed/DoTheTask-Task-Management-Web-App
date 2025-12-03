@@ -1,7 +1,11 @@
 import express from 'express'
+import dotenv from 'dotenv'
+import path from 'path'
+dotenv.config({path: path.resolve(__dirname, "../../.env")})
 import type { Express } from 'express'
 import type { Request, Response } from 'express'
 import { boardRouter } from './routes/boardRouter'
+
 
 const PORT: number = 8000
 
