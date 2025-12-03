@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import SideNav from "./components/SideNav";
+import Header from "./components/Header";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,8 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex items-center gap-5">
-        <SideNav />
+      <body className="flex flex-col items-center gap-5">
+        <Header />
         {children}
       </body>
     </html>

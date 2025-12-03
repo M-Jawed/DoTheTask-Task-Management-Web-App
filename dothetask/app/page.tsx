@@ -1,10 +1,10 @@
 import Board from "./components/Board";
-import Header from "./components/Header";
+import SideNav from "./components/SideNav";
 
 export default function Home() {
   return (
-    <main className="flex flex-col h-screen w-full">
-      <Header />
+    <main className="flex h-screen w-full">
+      <SideNav />
       <Board />
     </main>
   );
