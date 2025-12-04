@@ -1,15 +1,22 @@
 import type { Request, Response } from "express";
 import supabase from "../supabase-client";
 
-export async function getBoards(req: Request, res: Response) {
+type BoardProps = {
+    id: string
+    created_at: string
+    name: string
+    slug: string
+}
+
+export async function getBoards(req: Request, res: Response<{message?: string} | BoardProps[]>) {
     try {
         const {error, data} = await supabase.from('boards').select('*')
         if(error){
-            return res.status(400).json({message: error})
+            return res.status(400).json({message: error.message})
         }
-
-        return res.status(200).json(data)
+        return res.status(200).json(data as BoardProps[])
     } catch(err){
-
+        console.error(err)
+        return res.status(400).json({message: 'Failed to get data'})
     }
 }   

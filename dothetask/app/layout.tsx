@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SideNav from "./components/SideNav";
 import Header from "./components/Header";
+import BoardContextProvider from "./components/BoardContextProvider";
 
 import "./globals.css";
 
@@ -16,9 +17,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex flex-col items-center gap-5">
+      <body className=" flex flex-col items-center w-full">
+        <BoardContextProvider>
         <Header />
-        {children}
+        <div className="flex items-center gap-5 w-full">
+          <SideNav />
+          {children}
+        </div>
+        </BoardContextProvider>
       </body>
     </html>
   );

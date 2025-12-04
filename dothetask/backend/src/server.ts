@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import dotenv from 'dotenv'
 import path from 'path'
 dotenv.config({path: path.resolve(__dirname, "../../.env")})
@@ -10,6 +11,8 @@ import { boardRouter } from './routes/boardRouter'
 const PORT: number = 8000
 
 const app:Express = express()
+
+app.use(cors())
 
 app.use('/api', boardRouter)
 
