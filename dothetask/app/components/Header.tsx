@@ -23,7 +23,7 @@ export default function Header() {
           <h1 className="font-medium text-3xl"> {boardName?.name} </h1  >
         </div>
         <div className="w-[20%] flex items-center gap-2 px-2">
-          <button className="w-[65%] bg-[#4682B4] px-2 py-2 text-white rounded-lg text-lg font-medium cursor-pointer">
+          <button className="w-[65%] bg-[#4682B4] px-2 py-2 text-white rounded-lg text-lg font-medium cursor-pointer hover:bg-[#0077B6]">
             Add new task
           </button>
           <button className="w-[15%] py-2 px-[10px] bg-red-500 flex items-center justify-center text-xl rounded-lg cursor-pointer">

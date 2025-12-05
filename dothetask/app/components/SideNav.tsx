@@ -8,6 +8,9 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import { useBoard } from "./BoardContextProvider";
+import { FaFolderPlus } from "react-icons/fa6";
+import BoardForm from "./BoardForm";
+
 
 export type BoardProps = {
   id: string;
@@ -20,6 +23,7 @@ export default function SideNav() {
   const [toggleNav, setToggleNav] = useState<boolean>(true);
   const [toggleTheme, setToggleTheme] = useState<boolean>(false);
   const [themeText, setThemeText] = useState<string>();
+  const [toggleBoardForm, setToggleBoardForm] = useState<boolean>(false)
   const {boards} = useBoard()
   const router = useRouter();
   const pathname = usePathname()
@@ -43,6 +47,14 @@ export default function SideNav() {
   const showNav = () => {
     setToggleNav(true);
   };
+
+  const showBoardForm = () => {
+    setToggleBoardForm(prev => !prev)
+  }
+
+  const closeBoardForm = () => {
+    setToggleBoardForm(false)
+  }
 
   useEffect(() => {
     theme();
@@ -80,6 +92,7 @@ export default function SideNav() {
             ) : (
               <p>Loading...</p>
             )}
+            <button onClick={showBoardForm} className="flex items-center gap-2 mb-1 w-[80%] h-[50px] px-5 text-lg font-medium rounded-r-xl cursor-pointer hover:text-[#4682B4]"> <FaFolderPlus fill="#4682B4" /> New Board</button>
           </div>
 
           <div className="px-5">
@@ -115,6 +128,8 @@ export default function SideNav() {
           <FaEye fill="white" />{" "}
         </button>
       )}
+
+      {toggleBoardForm && <BoardForm toggleForm={toggleBoardForm} closeBoardForm={closeBoardForm} />}
     </section>
   );
 }
