@@ -29,7 +29,7 @@ export default function BoardContextProvider({ children }: {children: React.Reac
 
   useEffect(() => {
     getBoards()
-  }, [])
+  }, [boards])
 
   return (
     <BoardContext.Provider value={{ boards }}>
