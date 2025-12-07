@@ -9,7 +9,7 @@ import { FaEye } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import { useBoard } from "./BoardContextProvider";
 import { FaFolderPlus } from "react-icons/fa6";
-import BoardForm from "./BoardForm";
+import BoardForm from "../modals/BoardForm";
 
 
 export type BoardProps = {

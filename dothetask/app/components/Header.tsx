@@ -8,10 +8,10 @@ import { usePathname } from "next/navigation";
 import type { BoardProps } from "./SideNav";
 
 export default function Header() {
-  const {boards} = useBoard()
+  const {activeBoard} = useBoard()
   const pathname = usePathname()
+  console.log(activeBoard)
 
-  const boardName = boards.find((item: BoardProps) => pathname === `/boards/${item.slug}`)
   return (
     <header className="w-full h-[90px] flex items-center border-b-1 border-gray-200">
       <div className="flex items-center gap-2 px-8 py-4">
@@ -20,7 +20,7 @@ export default function Header() {
       </div>
       <div className="w-full flex items-center justify-between">
         <div>
-          <h1 className="font-medium text-3xl"> {boardName?.name} </h1  >
+          <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >
         </div>
         <div className="w-[20%] flex items-center gap-2 px-2">
           <button className="w-[65%] bg-[#4682B4] px-2 py-2 text-white rounded-lg text-lg font-medium cursor-pointer hover:bg-[#0077B6]">

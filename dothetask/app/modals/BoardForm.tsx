@@ -3,6 +3,7 @@
 import { useState, useActionState } from "react";
 import Form from "next/form";
 import { RiCloseLargeFill } from "react-icons/ri";
+import { useBoard } from "../components/BoardContextProvider";
 
 type BoardFormProps = {
   toggleForm?: boolean;
@@ -13,6 +14,7 @@ type BoardFormProps = {
 export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardFormProps, "boardName">) {
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [successMessage, setSuccessMessage] = useState<string>("")
+    const {getBoards} = useBoard()
 
   const handleNewBoardForm = async (prevData: any, formData: FormData) => {
     const boardName = formData.get("boardName");
@@ -29,6 +31,7 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
         },
         body: JSON.stringify(formObj),
       });
+      await getBoards()
       const data = await res.json();
 
       if (!res.ok) {
