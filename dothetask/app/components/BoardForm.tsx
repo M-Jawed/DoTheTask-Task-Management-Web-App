@@ -54,10 +54,13 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
     <section
       className={`${
         toggleForm
-          ? "absolute top-[55px] right-[-750px] border-1 w-[450px] h-[50%] py-10 px-6 rounded-xl"
+          ? "fixed inset-0 flex items-center justify-center bg-black/50 z-50"
           : "hidden"
       }`}
+      onClick={handleCloseBoardForm}
     >
+      <div className="bg-white w-[450px] h-[40%] py-10 px-6 rounded-xl"
+      onClick={e => e.stopPropagation()}>
       <div className="w-full flex items-center justify-between px-2">
         <h1 className="text-xl font-medium">Add a new board</h1>
         <button onClick={handleCloseBoardForm} className="hover:text-red-500 cursor-pointer">
@@ -91,6 +94,7 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
         {errorMessage && <p className="text-red-500 mt-3 text-center font-medium text-sm w-full"> {errorMessage} </p>}
         {successMessage && <p className="text-green-500 mt-3 text-center font-medium text-sm w-full"> {successMessage} </p>}
       </Form>
+      </div>
     </section>
   );
 }
