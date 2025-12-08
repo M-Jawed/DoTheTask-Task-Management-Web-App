@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import React from "react";
 import type { BoardProps } from "./SideNav";
-import supabase from "@/supabase-client";
 
 type BoardContextProps = {
   boards: BoardProps[];
@@ -24,10 +23,8 @@ export const useBoard = () => {
 }
 
 export default function BoardContextProvider({
-  boardSlug,
   children,
 }: {
-  boardSlug?: string;
   children: React.ReactNode;
 }) {
   const [boards, setBoards] = useState<BoardProps[]>([]);
@@ -41,21 +38,9 @@ export default function BoardContextProvider({
       console.error("Failed to get data");
       return;
     }
-
+    
     setBoards(data);
   };
-
-  useEffect(() => {
-    if(boards.length > 0){
-      const findActiveBoard = boards.find((item: BoardProps) => item.slug === boardSlug)
-      if(!findActiveBoard){
-        console.log('Failed to find the active board')
-        return
-      }
-      setActiveBoard(findActiveBoard || null)
-      console.log(findActiveBoard)
-    }
-  }, [boards, boardSlug])
 
   useEffect(() => {
     getBoards()

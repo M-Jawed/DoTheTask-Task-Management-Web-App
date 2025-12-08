@@ -17,9 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className=" flex flex-col items-center w-full">
+      <body className="w-full">
         <BoardContextProvider>
-        <Header />
         <div className="flex items-center gap-5 w-full">
           <SideNav />
           {children}

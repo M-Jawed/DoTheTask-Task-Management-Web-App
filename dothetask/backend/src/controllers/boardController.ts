@@ -40,3 +40,14 @@ export async function addNewBoard(req: Request, res: Response){
     }
     
 }
+
+export async function deleteBoard(req: Request, res: Response){
+    const {boardId} = req.params
+
+    if(!boardId){
+        return res.status(404).json({message: 'Failed to get boardId'})
+    }
+
+    res.send('This route works')
+
+}
