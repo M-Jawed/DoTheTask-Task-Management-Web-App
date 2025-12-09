@@ -10,7 +10,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useBoard } from "./BoardContextProvider";
 import { FaFolderPlus } from "react-icons/fa6";
 import BoardForm from "../modals/BoardForm";
-
+import { FaLinesLeaning } from "react-icons/fa6";
 
 export type BoardProps = {
   id: string;
@@ -23,10 +23,10 @@ export default function SideNav() {
   const [toggleNav, setToggleNav] = useState<boolean>(true);
   const [toggleTheme, setToggleTheme] = useState<boolean>(false);
   const [themeText, setThemeText] = useState<string>();
-  const [toggleBoardForm, setToggleBoardForm] = useState<boolean>(false)
-  const {boards} = useBoard()
+  const [toggleBoardForm, setToggleBoardForm] = useState<boolean>(false);
+  const { boards } = useBoard();
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const hideNav = () => {
     setToggleNav(false);
@@ -49,12 +49,12 @@ export default function SideNav() {
   };
 
   const showBoardForm = () => {
-    setToggleBoardForm(prev => !prev)
-  }
+    setToggleBoardForm((prev) => !prev);
+  };
 
   const closeBoardForm = () => {
-    setToggleBoardForm(false)
-  }
+    setToggleBoardForm(false);
+  };
 
   useEffect(() => {
     theme();
@@ -69,6 +69,10 @@ export default function SideNav() {
       } relative`}
     >
       <div className={`${toggleNav ? "flex flex-col" : "hidden"} `}>
+        <div className="flex items-center gap-2 px-1 py-4">
+          <FaLinesLeaning fill="#4682B4" className="text-4xl" />
+          <h1 className="text-4xl font-bold">DoTheTask</h1>
+        </div>
         <div className=" px-5">
           <p className="text-sm font-bold text-gray-400 tracking-widest mt-2">
             ALL BOARDS ({boards.length})
@@ -79,20 +83,29 @@ export default function SideNav() {
           <div>
             {boards.length > 0 ? (
               boards.map((item: BoardProps) => {
-                const isAcive = pathname === `/boards/${item.slug}`
+                const isAcive = pathname === `/boards/${item.slug}`;
                 return (
-                <button
-                  onClick={() => router.push(`/boards/${item.slug}`)}
-                  key={item.id}
-                  className={`flex items-center gap-2 mb-1 w-[80%] h-[50px] px-5 text-lg font-medium rounded-r-xl cursor-pointer hover:bg-[#4682B4] hover:text-white ${isAcive ? 'bg-[#4682B4] text-white' : ''} `}
-                >
-                  <MdOutlineTableChart /> {item.name}
-                </button>
-              )})
+                  <button
+                    onClick={() => router.push(`/boards/${item.slug}`)}
+                    key={item.id}
+                    className={`flex items-center gap-2 mb-1 w-[80%] h-[50px] px-5 text-lg font-medium rounded-r-xl cursor-pointer hover:bg-[#4682B4] hover:text-white ${
+                      isAcive ? "bg-[#4682B4] text-white" : ""
+                    } `}
+                  >
+                    <MdOutlineTableChart /> {item.name}
+                  </button>
+                );
+              })
             ) : (
               <p>Loading...</p>
             )}
-            <button onClick={showBoardForm} className="flex items-center gap-2 mb-1 w-[80%] h-[50px] px-5 text-lg font-medium rounded-r-xl cursor-pointer hover:text-[#4682B4]"> <FaFolderPlus fill="#4682B4" /> New Board</button>
+            <button
+              onClick={showBoardForm}
+              className="flex items-center gap-2 mb-1 w-[80%] h-[50px] px-5 text-lg font-medium rounded-r-xl cursor-pointer hover:text-[#4682B4]"
+            >
+              {" "}
+              <FaFolderPlus fill="#4682B4" /> New Board
+            </button>
           </div>
 
           <div className="px-5">
@@ -122,14 +135,19 @@ export default function SideNav() {
       {!toggleNav && (
         <button
           onClick={showNav}
-          className="absolute bottom-0 top-120 px-2 w-[100%] flex items-center justify-center bg-[#4682B4] h-[40px] rounded-r-lg cursor-pointer"
+          className="absolute bottom-0 top-10 px-2 w-[100%] flex items-center justify-center bg-[#4682B4] h-[40px] rounded-r-lg cursor-pointer"
         >
           {" "}
           <FaEye fill="white" />{" "}
         </button>
       )}
 
-      {toggleBoardForm && <BoardForm toggleForm={toggleBoardForm} closeBoardForm={closeBoardForm} />}
+      {toggleBoardForm && (
+        <BoardForm
+          toggleForm={toggleBoardForm}
+          closeBoardForm={closeBoardForm}
+        />
+      )}
     </section>
   );
 }

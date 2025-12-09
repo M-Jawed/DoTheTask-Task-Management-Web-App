@@ -1,17 +1,33 @@
 'use client'
 
+import { useState } from "react"
 import type { BoardProps } from "../components/SideNav"
 import { useBoard } from "../components/BoardContextProvider"
 
-export default function DeleteBoard({deleteModal, closeDeleteModal}: {deleteModal: boolean, closeDeleteModal: () => void}){
-    const {activeBoard} = useBoard()
+export default function DeleteBoard({deleteModal, currentBoard, closeDeleteModal}: {deleteModal: boolean, currentBoard: BoardProps, closeDeleteModal: () => void}){
+    const [errorMessage, setErrorMessage] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
+    const {getBoards} = useBoard()
 
     const handleDelete = async () => {
-        if(!activeBoard){
+        if(!currentBoard){
             console.error('No active board found')
             return
         }
-        console.log(activeBoard)
+        
+        const res = await fetch(`http://localhost:8000/api/boards/deleteBoard/${currentBoard.id}`, {method: 'DELETE'})
+        const data = await res.json()
+
+        if(!res.ok){
+            console.error('Failed to delete the board')
+            setErrorMessage(data.message)
+            return
+        }
+
+        setSuccessMessage(data.message)
+        await getBoards()
+        closeDeleteModal()
+
     }
 
     const closeDelete = () => {

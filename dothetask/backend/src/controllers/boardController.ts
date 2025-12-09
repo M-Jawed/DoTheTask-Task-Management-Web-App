@@ -48,6 +48,18 @@ export async function deleteBoard(req: Request, res: Response){
         return res.status(404).json({message: 'Failed to get boardId'})
     }
 
-    res.send('This route works')
+    try {
+        const {error} = await supabase.from('boards').delete().eq("id", boardId)
+
+        if(error){
+            return res.status(404).json({message: 'Board with that id not found'})
+        }
+
+        res.status(200).json({message: 'Sucessfully deleted the board'})
+
+    } catch(err){
+        console.error(err)
+        return
+    }
 
 }

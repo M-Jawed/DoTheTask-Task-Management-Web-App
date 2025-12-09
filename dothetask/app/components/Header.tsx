@@ -2,15 +2,26 @@
 
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import { FaLinesLeaning } from "react-icons/fa6";
 import { useBoard } from "./BoardContextProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { BoardProps } from "./SideNav";
 import DeleteBoard from "../modals/DeleteBoard";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
   const {boards, activeBoard, setActiveBoard} = useBoard()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+
+  useEffect(() => {
+    if(boards.length > 0){
+      const current = boards.find((item: BoardProps) => item.slug.toLowerCase() === boardSlug.toLowerCase())
+      console.log(current)
+      if(!current) {
+        console.error('Could not find the current board')
+        return
+      }
+      setActiveBoard(current)
+    }
+  }, [boards, boardSlug])
 
   const showDeleteModal = () => {
     setOpenDeleteModal(prev => !prev)
@@ -22,10 +33,6 @@ export default function Header({boardSlug}: {boardSlug: string}) {
 
   return (
     <header className="w-full h-[90px] flex items-center ">
-      <div className="flex items-center gap-2 px-1 py-4">
-        <FaLinesLeaning fill="#4682B4" className="text-4xl" />
-        <h1 className="text-4xl font-bold">DoTheTask</h1>
-      </div>
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >
@@ -44,7 +51,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
           </button>
         </div>
       </div>
-      {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} />}
+      {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} currentBoard={activeBoard} />}
     </header>
   );
 }
