@@ -6,10 +6,12 @@ import { useBoard } from "./BoardContextProvider";
 import { useEffect, useState } from "react";
 import type { BoardProps } from "./SideNav";
 import DeleteBoard from "../modals/DeleteBoard";
+import EditBoard from "../modals/EditBoard";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
   const {boards, activeBoard, setActiveBoard} = useBoard()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false)
 
   useEffect(() => {
     if(boards.length > 0){
@@ -31,6 +33,14 @@ export default function Header({boardSlug}: {boardSlug: string}) {
     setOpenDeleteModal(false)
   }
 
+  const showEditModal = () => {
+    setOpenEditModal(prev => !prev)
+  }
+
+  const closeEditModal = () => {
+    setOpenEditModal(false)
+  }
+
   return (
     <header className="w-full h-[90px] flex items-center ">
       <div className="w-full flex items-center justify-between">
@@ -45,13 +55,14 @@ export default function Header({boardSlug}: {boardSlug: string}) {
             {" "}
             <MdDelete fill="white" />{" "}
           </button>
-          <button className="w-[15%] py-2 px-[10px] bg-green-300 flex items-center justify-center text-xl rounded-lg cursor-pointer">
+          <button onClick={showEditModal} className="w-[15%] py-2 px-[10px] bg-green-300 flex items-center justify-center text-xl rounded-lg cursor-pointer">
             {" "}
             <FaEdit fill="white" />{" "}
           </button>
         </div>
       </div>
       {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} currentBoard={activeBoard} />}
+      {openEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={openEditModal} closeEditModal={closeEditModal} />}
     </header>
   );
 }
