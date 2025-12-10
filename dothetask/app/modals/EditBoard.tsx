@@ -6,6 +6,7 @@ import type { BoardProps } from "../components/SideNav"
 import { RiCloseLargeFill } from "react-icons/ri";
 import { useState } from "react";
 import { useBoard } from "../components/BoardContextProvider";
+import { useRouter } from "next/navigation";
 
 type EditBoard = {
     name: string
@@ -15,6 +16,7 @@ type EditBoard = {
 export default function EditBoard({currentBoard, editModal, closeEditModal}: {currentBoard: BoardProps, editModal: boolean, closeEditModal: () => void}) {
     const [editFieldData, setEditFieldData] = useState('')
     const {getBoards} = useBoard()
+    const router = useRouter()
 
     const handleEdit = async (prevState: {boardName: string}, formData: FormData): Promise<{ boardName: string, message?: string }> => {
         const boardName = formData.get('boardName') as string
@@ -32,6 +34,10 @@ export default function EditBoard({currentBoard, editModal, closeEditModal}: {cu
             const data =  await res.json()
             await getBoards()
             console.log(data.message)
+
+            if(data.slug){
+                router.push(`/boards/${data.slug}`)
+            }
         } catch(err){
             console.error(err)
         }

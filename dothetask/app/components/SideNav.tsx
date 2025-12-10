@@ -64,7 +64,7 @@ export default function SideNav() {
     <section
       className={`${
         toggleNav
-          ? "w-[20%] transition-all duration-200 delay-100 ease-in-out"
+          ? "w-[23%] transition-all duration-200 delay-100 ease-in-out"
           : "w-[2%]"
       } relative`}
     >
@@ -80,15 +80,16 @@ export default function SideNav() {
         </div>
 
         <div className="mt-5 flex flex-col justify-between h-[520px] gap-y-1">
-          <div>
+          <div className="">
             {boards.length > 0 ? (
               boards.map((item: BoardProps) => {
                 const isAcive = pathname === `/boards/${item.slug}`;
+                const smallText = item.name.length >= 20 ? 'text-sm' : 'text-lg'
                 return (
                   <button
                     onClick={() => router.push(`/boards/${item.slug}`)}
                     key={item.id}
-                    className={`flex items-center gap-2 mb-1 w-[80%] h-[50px] px-5 text-lg font-medium rounded-r-xl cursor-pointer hover:bg-[#4682B4] hover:text-white ${
+                    className={`flex items-center gap-2 mb-1 w-[100%] h-[50px] px-5 ${smallText} font-medium rounded-r-xl cursor-pointer hover:bg-[#4682B4] hover:text-white ${
                       isAcive ? "bg-[#4682B4] text-white" : ""
                     } `}
                   >

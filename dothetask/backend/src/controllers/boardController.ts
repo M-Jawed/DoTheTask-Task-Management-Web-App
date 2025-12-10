@@ -73,7 +73,7 @@ export async function editBoard(req: Request, res: Response){
         if(error){
             return res.status(400).json({message: error.message})
         }
-        res.status(200).json({message: 'Updated the board name'})
+        res.status(200).json({message: 'Updated the board name', slug})
     } catch(err){
         return res.status(400).json({message: err})
     }
