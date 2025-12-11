@@ -6,6 +6,7 @@ dotenv.config({path: path.resolve(__dirname, "../../.env")})
 import type { Express } from 'express'
 import type { Request, Response } from 'express'
 import { boardRouter } from './routes/boardRouter'
+import { columnRouter } from './routes/columnRouter'
 
 
 const PORT: number = 8000
@@ -17,5 +18,6 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api', boardRouter)
+app.use('/api', columnRouter)
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

@@ -16,7 +16,6 @@ export default function Header({boardSlug}: {boardSlug: string}) {
   useEffect(() => {
     if(boards.length > 0){
       const current = boards.find((item: BoardProps) => item.slug.toLowerCase() === boardSlug.toLowerCase())
-      console.log(current)
       if(!current) {
         console.error('Could not find the current board')
         return
