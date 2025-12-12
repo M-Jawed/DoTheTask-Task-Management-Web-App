@@ -6,6 +6,7 @@ import Board from "@/app/components/Board"
 export default async function boardSlug({params} : {params: Promise<{boardSlug: string}>}){
     const {boardSlug} = await params
     const currentBoard = await getBoardDataBySlug(boardSlug)
+    let getCurrentColumns
     
     try {
         if(currentBoard.success){
@@ -18,11 +19,12 @@ export default async function boardSlug({params} : {params: Promise<{boardSlug: 
             }
 
             const data = await res.json()
-            console.log(data)
+            getCurrentColumns = data
         }
     } catch(err){
         console.error(err)
     }
+    console.log('Current column data is: ', getCurrentColumns)
     return (
         <section className="w-full flex flex-col items-center">
             <Board boardSlug={boardSlug} />
