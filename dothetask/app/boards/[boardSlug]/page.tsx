@@ -1,6 +1,7 @@
 import Column from "@/app/components/Column"
 import getBoardDataBySlug from "@/app/utils/getBoardDataBySlug"
 import type { BoardProps } from "@/app/components/SideNav"
+import Board from "@/app/components/Board"
 
 export default async function boardSlug({params} : {params: Promise<{boardSlug: string}>}){
     const {boardSlug} = await params
@@ -8,7 +9,7 @@ export default async function boardSlug({params} : {params: Promise<{boardSlug: 
     
     try {
         if(currentBoard.success){
-            console.log(currentBoard.board.id)
+            
             const res = await fetch(`http://localhost:8000/api/columns/${currentBoard.board.id}`)
 
             if(!res.ok){
@@ -24,9 +25,7 @@ export default async function boardSlug({params} : {params: Promise<{boardSlug: 
     }
     return (
         <section className="w-full flex flex-col items-center">
-            <div className="w-full grid grid-cols-3">
-
-            </div>
+            <Board boardSlug={boardSlug} />
         </section>
     )
 }

@@ -3,7 +3,7 @@ import Board from "./components/Board";
 export default function Home() {
   return (
     <main className="w-full">
-      <Board />
+      <h1>Welcome</h1>
     </main>
   );
 }

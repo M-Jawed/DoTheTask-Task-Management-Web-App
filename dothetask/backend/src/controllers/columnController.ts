@@ -1,7 +1,15 @@
 import type { Request, Response } from "express";
+import supabase from "../supabase-client";
 
 export async function getColumns(req: Request, res: Response){
     const {boardId} = req.params
-    console.log(boardId)
-    res.status(200).json({message: `Board id is ${boardId}`})
+    try {
+        const {error, data} = await supabase.from('columns').select('*').eq("board_id", boardId)
+        if(error){
+            return res.status(400).json({message: 'Board what that id not found'})
+        }
+        return res.status(200).json(data)
+    } catch(err){
+        return res.status(400).json({message: 'Failed to get columns'})
+    }
 }
