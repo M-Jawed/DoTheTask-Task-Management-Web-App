@@ -41,7 +41,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
   }
 
   return (
-    <header className="w-full h-[90px] flex items-center ">
+    <header className="z-2 w-full h-[90px] flex items-center ">
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >

@@ -32,7 +32,6 @@ export default function Board({boardSlug}: {boardSlug: string}){
             return
         }
         const data = await res.json()
-        console.log(data)
         setColumns(data)
     }
 
@@ -41,6 +40,18 @@ export default function Board({boardSlug}: {boardSlug: string}){
     }, [boardSlug])
 
     return (
-        <h1>This is the board page</h1>
+        <section className="w-full flex flex-col items-center bg-gray-100 h-full px-5 py-2 overflow-y-auto overflow-x-auto">
+            <div className={`flex gap-4 w-full px-5 py-2 h-full overflow-x-auto`}>
+                {columns?.map((item) => (
+                    <div key={item.id} className="w-[20%] h-full border-1 px-2 py-2 text-center"> 
+                        <h1>{item.name}</h1>
+                        <div>
+
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+        </section>
     )
 }
