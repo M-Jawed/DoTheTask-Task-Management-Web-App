@@ -7,22 +7,28 @@ import { useEffect, useState } from "react";
 import type { BoardProps } from "./SideNav";
 import DeleteBoard from "../modals/DeleteBoard";
 import EditBoard from "../modals/EditBoard";
+import type { Columns } from "./Board";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
   const {boards, activeBoard, setActiveBoard} = useBoard()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [openEditModal, setOpenEditModal] = useState<boolean>(false)
+  const [columns, setColumns] = useState<Columns[]>([])
 
-  useEffect(() => {
-    if(boards.length > 0){
-      const current = boards.find((item: BoardProps) => item.slug.toLowerCase() === boardSlug.toLowerCase())
-      if(!current) {
-        console.error('Could not find the current board')
+  const getCurrentBoardColumns = async (boardId: string) => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/columns/${boardId}`)
+      if(!res.ok){
+        console.error('Failed to fetch current board')
         return
       }
-      setActiveBoard(current)
+      const data = await res.json()
+      console.log(data)
+      setColumns(data)
+    } catch(err){
+      console.error(err)
     }
-  }, [boards, boardSlug])
+  }
 
   const showDeleteModal = () => {
     setOpenDeleteModal(prev => !prev)
@@ -40,8 +46,20 @@ export default function Header({boardSlug}: {boardSlug: string}) {
     setOpenEditModal(false)
   }
 
+  useEffect(() => {
+    if(boards.length > 0){
+      const current = boards.find((item: BoardProps) => item.slug.toLowerCase() === boardSlug.toLowerCase())
+      if(!current) {
+        console.error('Could not find the current board')
+        return
+      }
+      setActiveBoard(current)
+      getCurrentBoardColumns(current?.id)
+    }
+  }, [boards, boardSlug])
+
   return (
-    <header className="z-2 w-full h-[90px] flex items-center ">
+    <header className="z-2 w-full h-[90px] flex items-center sticky ">
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >
@@ -61,7 +79,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
         </div>
       </div>
       {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} currentBoard={activeBoard} />}
-      {openEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={openEditModal} closeEditModal={closeEditModal} />}
+      {openEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={openEditModal} currentBoardColumns={columns} closeEditModal={closeEditModal} />}
     </header>
   );
 }

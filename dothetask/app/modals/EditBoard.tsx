@@ -7,16 +7,25 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import { useState } from "react";
 import { useBoard } from "../components/BoardContextProvider";
 import { useRouter } from "next/navigation";
+import type { Columns } from "../components/Board";
 
 type EditBoard = {
     name: string
     currentBoard: BoardProps
 }
 
-export default function EditBoard({currentBoard, editModal, closeEditModal}: {currentBoard: BoardProps, editModal: boolean, closeEditModal: () => void}) {
+type EditModalProps = {
+    currentBoard: BoardProps
+    editModal: boolean
+    closeEditModal: () => void
+    currentBoardColumns: Columns[]
+}
+
+export default function EditBoard({currentBoard, editModal, closeEditModal, currentBoardColumns}: EditModalProps) {
     const [editFieldData, setEditFieldData] = useState('')
     const {getBoards} = useBoard()
     const router = useRouter()
+    console.log(currentBoardColumns)
 
     const handleEdit = async (prevState: {boardName: string}, formData: FormData): Promise<{ boardName: string, message?: string }> => {
         const boardName = formData.get('boardName') as string
@@ -52,8 +61,8 @@ export default function EditBoard({currentBoard, editModal, closeEditModal}: {cu
     }
 
     return (
-        <section className={editModal ? 'w-full inset-0 absolute flex items-center justify-center bg-black/50 z-50' : 'hidden'}>
-            <div className="w-[30%] flex flex-col items-start bg-white px-10 py-10 rounded-lg">
+        <section className={editModal ? 'w-full h-screen inset-0 absolute flex items-center justify-center bg-black/50 z-50' : 'hidden'}>
+            <div className="w-[40%] flex flex-col items-start bg-white px-10 py-10 rounded-lg">
                 <div className="flex items-center justify-between w-full">
                     <h1 className="text-xl font-medium">Edit Board</h1>
                     <RiCloseLargeFill className="hover:fill-red-500 cursor-pointer" onClick={closeEdit} />
