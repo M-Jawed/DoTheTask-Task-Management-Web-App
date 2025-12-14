@@ -43,7 +43,7 @@ export default function Board({boardSlug}: {boardSlug: string}){
         <section className="w-full flex flex-col items-center bg-gray-100 h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide">
             <div className={`flex gap-4 w-full px-5 py-2 h-full overflow-x-auto scrollbar-hide`}>
                 {columns?.map((item) => (
-                    <div key={item.id} className="min-w-[300px] shrink-0 h-full border-1 px-2 py-2 text-center"> 
+                    <div key={item.id} className="min-w-[300px] shrink-0 h-full px-2 py-2"> 
                         <h1>{item.name}</h1>
                         <div>
                             
