@@ -8,10 +8,12 @@ import { useState } from "react";
 import { useBoard } from "../components/BoardContextProvider";
 import { useRouter } from "next/navigation";
 import type { Columns } from "../components/Board";
+import EditColumns from "./EditColumns";
 
 type EditBoard = {
     name: string
     currentBoard: BoardProps
+    columns: Columns[]
 }
 
 type EditModalProps = {
@@ -23,15 +25,21 @@ type EditModalProps = {
 
 export default function EditBoard({currentBoard, editModal, closeEditModal, currentBoardColumns}: EditModalProps) {
     const [editFieldData, setEditFieldData] = useState('')
+    const [columns, setColumns] = useState<Columns[]>([])
     const {getBoards} = useBoard()
     const router = useRouter()
-    console.log(currentBoardColumns)
+    console.log(columns)
 
     const handleEdit = async (prevState: {boardName: string}, formData: FormData): Promise<{ boardName: string, message?: string }> => {
         const boardName = formData.get('boardName') as string
-        const boardData: EditBoard = {name: editFieldData, currentBoard}
+        const boardData: EditBoard = {name: editFieldData, currentBoard, columns}
 
         try {
+            if(!boardName || boardName.toLowerCase() === currentBoard.name.toLowerCase()){
+                closeEditModal()
+                return prevState
+            }
+
             const res = await fetch(`http://localhost:8000/api/boards/editBoard`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -69,17 +77,19 @@ export default function EditBoard({currentBoard, editModal, closeEditModal, curr
                 </div>
 
                 <Form action={action} className="flex flex-col items-start mt-10 w-full">
+                    <div className="w-full">
                     <label htmlFor="boardName" className="mb-5">Board Name</label>
                     <input type="text"
                     onChange={(e) => setEditFieldData(e.target.value)}
                     name="boardName"
                     id="boardName"
                     placeholder="Platform Launch"
-                    className="w-full border-1 px-2 py-2 rounded-lg outline-none"
+                    className="w-full border-1 px-2 py-2 rounded-lg mt-2 outline-none"
                     defaultValue={currentBoard.name}
                      />
-
-                     <button type="submit" className="w-full text-center bg-[#4682B4] text-white font-medium text-xl py-2 mt-6 rounded-lg cursor-pointer">Save Changes</button>  
+                    </div>
+                    {currentBoardColumns && <EditColumns currentBoardColumns={currentBoardColumns} onChange={setColumns} />}
+                    <button type="submit" className="w-full text-center bg-[#4682B4] text-white font-medium text-xl py-2 mt-6 rounded-lg cursor-pointer">Save Changes</button>  
                 </Form>
             </div>
         </section>

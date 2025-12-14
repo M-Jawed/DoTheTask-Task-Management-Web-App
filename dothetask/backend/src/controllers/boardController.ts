@@ -66,8 +66,9 @@ export async function deleteBoard(req: Request, res: Response){
 
 
 export async function editBoard(req: Request, res: Response){
-    const {name, currentBoard} = req.body
+    const {name, currentBoard, columns} = req.body
     const slug = generateSlug(name)
+    
     try {
         const {error} = await supabase.from('boards').update({name, slug}).eq("id", currentBoard.id)
         if(error){

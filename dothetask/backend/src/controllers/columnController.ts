@@ -6,7 +6,7 @@ export async function getColumns(req: Request, res: Response){
     try {
         const {error, data} = await supabase.from('columns').select('*').eq("board_id", boardId)
         if(error){
-            return res.status(400).json({message: 'Board what that id not found'})
+            return res.status(400).json({message: 'Board with that id not found'})
         }
         return res.status(200).json(data)
     } catch(err){
