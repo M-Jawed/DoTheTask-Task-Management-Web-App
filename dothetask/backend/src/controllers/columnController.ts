@@ -16,12 +16,17 @@ export async function getColumns(req: Request, res: Response){
 
 export async function deleteColumn(req: Request, res: Response){
     const {columnId} = req.params
+    console.log(columnId)
     try {
-        const {error} = await supabase.from('boards').delete().eq("id", columnId)
+        const {error, data} = await supabase.from('columns').delete().eq("id", columnId).select()
         if(error){
             return res.status(400).json({message: 'Failed to delete the column', error})
         }
-        res.status(200).json({message: 'Deleted the column'})
+
+        if(data.length === 0){
+            return res.json({message: 'Failed to delete row, RLS is enabled'})
+        }
+        res.status(200).json({message: 'Deleted the column', data})
     } catch(err){
         return res.status(400).json({message: 'Failed to delete the column', err})
     }

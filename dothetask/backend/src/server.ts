@@ -9,7 +9,7 @@ import { boardRouter } from './routes/boardRouter'
 import { columnRouter } from './routes/columnRouter'
 
 
-const PORT: number = 8000
+const PORT: number = 8001
 
 const app:Express = express()
 
@@ -17,7 +17,9 @@ app.use(cors())
 
 app.use(express.json())
 
+
 app.use('/api', boardRouter)
 app.use('/api', columnRouter)
+
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

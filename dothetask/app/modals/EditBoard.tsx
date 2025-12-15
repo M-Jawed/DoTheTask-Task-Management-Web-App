@@ -40,7 +40,7 @@ export default function EditBoard({currentBoard, editModal, closeEditModal, curr
                 return prevState
             }
 
-            const res = await fetch(`http://localhost:8000/api/boards/editBoard`, {
+            const res = await fetch(`http://localhost:8001/api/boards/editBoard`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(boardData)

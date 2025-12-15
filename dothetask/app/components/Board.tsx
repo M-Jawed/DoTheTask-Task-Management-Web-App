@@ -26,7 +26,7 @@ export default function Board({boardSlug}: {boardSlug: string}){
     }
 
     const getCurrentBoardColumns = async (boardId: string) => {
-        const res = await fetch(`http://localhost:8000/api/columns/${boardId}`)
+        const res = await fetch(`http://localhost:8001/api/columns/${boardId}`)
         if(!res.ok){
             setErrorMessage('Failed to get current board columns')
             return

@@ -15,7 +15,7 @@ export default function DeleteBoard({deleteModal, currentBoard, closeDeleteModal
             return
         }
         
-        const res = await fetch(`http://localhost:8000/api/boards/deleteBoard/${currentBoard.id}`, {method: 'DELETE'})
+        const res = await fetch(`http://localhost:8001/api/boards/deleteBoard/${currentBoard.id}`, {method: 'DELETE'})
         const data = await res.json()
 
         if(!res.ok){

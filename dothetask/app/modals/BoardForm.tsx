@@ -24,7 +24,7 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
     };
 
     try {
-      const res = await fetch("http://localhost:8000/api/boards/addNewBoard", {
+      const res = await fetch("http://localhost:8001/api/boards/addNewBoard", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

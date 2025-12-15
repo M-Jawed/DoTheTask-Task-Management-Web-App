@@ -31,7 +31,7 @@ export default function BoardContextProvider({
   const [activeBoard, setActiveBoard] = useState<BoardProps | null>(null);
 
    const getBoards = async () => {
-    const res = await fetch("http://localhost:8000/api/boards");
+    const res = await fetch("http://localhost:8001/api/boards");
     const data = await res.json();
 
     if (!res.ok) {

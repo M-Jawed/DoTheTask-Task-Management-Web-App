@@ -17,7 +17,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
 
   const getCurrentBoardColumns = async (boardId: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/columns/${boardId}`)
+      const res = await fetch(`http://localhost:8001/api/columns/${boardId}`)
       if(!res.ok){
         console.error('Failed to fetch current board')
         return

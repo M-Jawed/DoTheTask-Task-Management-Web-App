@@ -15,13 +15,14 @@ export default function EditColumns({currentBoardColumns, onChange}: EditColumns
   };
 
   const handleDeleteColumn = async (columnId: string) => {
-    const res = await fetch(`http://localhost:8000/api/columns/deleteColumn/${columnId}`)
+    console.log('Column id is ', columnId)
+    const res = await fetch(`http://localhost:8001/api/columns/deleteColumn/${columnId}`, {method: "DELETE"})
     if(!res.ok){
       console.error('Failed to delete column')
       return
     }
     const data = await res.json()
-    console.log(data)
+    console.log('deleted column', data)
   }
 
   return (
