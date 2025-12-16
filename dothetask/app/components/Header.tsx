@@ -10,9 +10,8 @@ import EditBoard from "../modals/EditBoard";
 import type { Columns } from "./Board";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
-  const {boards, activeBoard, setActiveBoard} = useBoard()
+  const {boards, activeBoard, setActiveBoard, editModal, setEditModal} = useBoard()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
-  const [openEditModal, setOpenEditModal] = useState<boolean>(false)
   const [columns, setColumns] = useState<Columns[]>([])
 
   const getCurrentBoardColumns = async (boardId: string) => {
@@ -45,11 +44,11 @@ export default function Header({boardSlug}: {boardSlug: string}) {
   }
 
   const showEditModal = () => {
-    setOpenEditModal(prev => !prev)
+    setEditModal(prev => !prev)
   }
 
   const closeEditModal = () => {
-    setOpenEditModal(false)
+    setEditModal(false)
   }
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
         </div>
       </div>
       {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} currentBoard={activeBoard} />}
-      {openEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={openEditModal} currentBoardColumns={columns} closeEditModal={closeEditModal} onColumnsChange={refreshColumns} />}
+      {editModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={editModal} currentBoardColumns={columns} closeEditModal={closeEditModal} onColumnsChange={refreshColumns} />}
     </header>
   );
 }

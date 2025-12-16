@@ -2,7 +2,8 @@
 
 import getBoardDataBySlug from "../utils/getBoardDataBySlug"
 import type { BoardProps } from "./SideNav"
-import { useState, useEffect } from "react"
+import { useBoard } from "./BoardContextProvider"
+import EditBoard from "../modals/EditBoard"
 
 export type Columns = {
     id: string
@@ -13,35 +14,15 @@ export type Columns = {
 }
 
 export default function Board({boardSlug}: {boardSlug: string}){
-    const [columns, setColumns] =  useState<Columns[] | null>(null)
-    const [board, setBoard] = useState<BoardProps | null>(null)
-    const [errorMessage, setErrorMessage] = useState<string>('')
-    
-    const getCurrentBoard = async () => {
-        const current = await getBoardDataBySlug(boardSlug)
-        if(current.success){
-            setBoard(current?.board)
-            getCurrentBoardColumns(current?.board?.id)
-        }
+    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns} = useBoard()
+
+    const showEditModal = () => {
+        setEditModal(prev => !prev)
     }
 
-    const getCurrentBoardColumns = async (boardId: string) => {
-        const res = await fetch(`http://localhost:8001/api/columns/${boardId}`)
-        if(!res.ok){
-            setErrorMessage('Failed to get current board columns')
-            return
-        }
-        const data = await res.json()
-        setColumns(data)
+    const hideEditModal = () => {
+        setEditModal(false)
     }
-
-    useEffect(() => {
-        getCurrentBoard()
-    }, [boardSlug])
-
-    useEffect(() => {
-        getCurrentBoard()
-    }, [columns])
 
     return (
         <section className="w-full flex flex-col items-center bg-gray-100 h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide">
@@ -55,10 +36,12 @@ export default function Board({boardSlug}: {boardSlug: string}){
                     </div>
                 ))}
                 <div className="flex items-center justify-center h-full w-[20%]">
-                    <button className="w-full h-full bg-gray-200 cursor-pointer text-xl font-medium text-gray-400 hover:bg-gray-300">+New Column</button>
+                    <button onClick={showEditModal} className="w-full h-full bg-gray-200 cursor-pointer text-xl font-medium text-gray-400 hover:bg-gray-300">+New Column</button>
                 </div>
             </div>
-
+                {editModal ? <EditBoard currentBoard={activeBoard!} editModal={editModal} currentBoardColumns={columns} closeEditModal={hideEditModal} onColumnsChange={() => {
+                    if(activeBoard) getCurrentBoardColumns(activeBoard.id)
+                }} /> : ''}
         </section>
     )
 }
