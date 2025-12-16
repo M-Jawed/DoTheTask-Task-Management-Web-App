@@ -39,6 +39,10 @@ export default function Board({boardSlug}: {boardSlug: string}){
         getCurrentBoard()
     }, [boardSlug])
 
+    useEffect(() => {
+        getCurrentBoard()
+    }, [columns])
+
     return (
         <section className="w-full flex flex-col items-center bg-gray-100 h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide">
             <div className={`flex gap-4 w-full px-5 py-2 h-full overflow-x-auto scrollbar-hide`}>

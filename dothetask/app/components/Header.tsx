@@ -30,6 +30,12 @@ export default function Header({boardSlug}: {boardSlug: string}) {
     }
   }
 
+  const refreshColumns = () => {
+    if(activeBoard?.id){
+      getCurrentBoardColumns(activeBoard.id)
+    }
+  }
+
   const showDeleteModal = () => {
     setOpenDeleteModal(prev => !prev)
   }
@@ -79,7 +85,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
         </div>
       </div>
       {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} currentBoard={activeBoard} />}
-      {openEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={openEditModal} currentBoardColumns={columns} closeEditModal={closeEditModal} />}
+      {openEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={openEditModal} currentBoardColumns={columns} closeEditModal={closeEditModal} onColumnsChange={refreshColumns} />}
     </header>
   );
 }

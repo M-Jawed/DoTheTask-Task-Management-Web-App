@@ -21,14 +21,15 @@ type EditModalProps = {
     editModal: boolean
     closeEditModal: () => void
     currentBoardColumns: Columns[]
+    onColumnsChange: () => void
+    
 }
 
-export default function EditBoard({currentBoard, editModal, closeEditModal, currentBoardColumns}: EditModalProps) {
+export default function EditBoard({currentBoard, editModal, closeEditModal, currentBoardColumns, onColumnsChange}: EditModalProps) {
     const [editFieldData, setEditFieldData] = useState('')
     const [columns, setColumns] = useState<Columns[]>([])
     const {getBoards} = useBoard()
     const router = useRouter()
-    console.log(columns)
 
     const handleEdit = async (prevState: {boardName: string}, formData: FormData): Promise<{ boardName: string, message?: string }> => {
         const boardName = formData.get('boardName') as string
@@ -88,7 +89,7 @@ export default function EditBoard({currentBoard, editModal, closeEditModal, curr
                     defaultValue={currentBoard.name}
                      />
                     </div>
-                    {currentBoardColumns && <EditColumns currentBoardColumns={currentBoardColumns} onChange={setColumns} />}
+                    {currentBoardColumns && <EditColumns currentBoardColumns={currentBoardColumns} onChange={setColumns} onColumndsDelete={onColumnsChange} />}
                     <button type="submit" className="w-full text-center bg-[#4682B4] text-white font-medium text-xl py-2 mt-6 rounded-lg cursor-pointer">Save Changes</button>  
                 </Form>
             </div>
