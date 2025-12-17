@@ -31,3 +31,9 @@ export async function deleteColumn(req: Request, res: Response){
         return res.status(400).json({message: 'Failed to delete the column', err})
     }
 }
+
+export async function addNewColumn(req:Request, res:Response){
+    const data = req.body
+    console.log(data)
+    res.json({message: 'Data recieved', data})
+}

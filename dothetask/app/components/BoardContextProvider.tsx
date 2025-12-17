@@ -33,7 +33,7 @@ export default function BoardContextProvider({
   boardSlug
 }: {
   children: React.ReactNode;
-  boardSlug: string
+  boardSlug?: string
 }) {
   const [boards, setBoards] = useState<BoardProps[]>([]);
   const [activeBoard, setActiveBoard] = useState<BoardProps | null>(null);
@@ -52,7 +52,7 @@ export default function BoardContextProvider({
   };
 
   const getCurrentBoard = async () => {
-    const current = await getBoardDataBySlug(boardSlug)
+    const current = await getBoardDataBySlug(boardSlug!)
     if(current.success){
       getCurrentBoardColumns(current.board.id)
     }

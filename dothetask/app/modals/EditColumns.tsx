@@ -2,6 +2,13 @@
 
 import type { Columns } from "../components/Board";
 import { RiCloseLargeFill } from "react-icons/ri";
+import { useBoard } from "../components/BoardContextProvider";
+import { useState } from "react";
+
+type NewColumn = {
+    name: string
+    boardId: string
+}
 
 type EditColumns = {
     currentBoardColumns: Columns[]
@@ -10,6 +17,10 @@ type EditColumns = {
 }
 
 export default function EditColumns({currentBoardColumns, onChange, onColumndsDelete}: EditColumns) {
+  const [newColumnField, setNewColumnField] = useState<NewColumn>({name: '', boardId: ''})
+  const [newColumnInput, setNewColumnInput] = useState<boolean>(false)
+
+  const {activeBoard} = useBoard()
 
   const handleEditColumns = async (id: string, name: string) => {
     onChange(currentBoardColumns.map((item: Columns) => item.id === id ? {...item, name} : item))
@@ -27,6 +38,12 @@ export default function EditColumns({currentBoardColumns, onChange, onColumndsDe
 
     onColumndsDelete()
   }
+
+  const newColumn = () => {
+    setNewColumnInput(prev => !prev)
+  }
+
+  console.log(newColumnField)
 
   return (
     <div className="flex flex-col flex-start mt-10 w-full">
@@ -47,7 +64,14 @@ export default function EditColumns({currentBoardColumns, onChange, onColumndsDe
           </button>
         </div>
       )) : <p className="text-center mt-5 mb-5 text-xl">No columns</p>}
-      <button type="button" className="hover:text-blue-500 cursor-pointer">+Add new column</button>
+      {newColumnInput && <input
+        type="text"
+        name="column"
+        id="column"
+        className="w-[90%] border-1 rounded-lg px-2 py-2 outline-none"
+        onChange={(e) => setNewColumnField(prev => ({...prev, name:e.target.value, boardId: activeBoard!.id}))}
+      />}
+      <button type="button" className="hover:text-blue-500 cursor-pointer" onClick={newColumn}>+Add new column</button>
     </div>
   );
 }

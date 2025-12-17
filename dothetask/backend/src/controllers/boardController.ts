@@ -75,7 +75,7 @@ export async function editBoard(req: Request, res: Response) {
       for (let col of columns) {
         const { id, name } = col;
         const { error } = await supabase
-          .from("boards")
+          .from("columns")
           .update({ name })
           .eq("id", id);
 
