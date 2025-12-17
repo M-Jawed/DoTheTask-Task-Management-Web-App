@@ -33,7 +33,16 @@ export async function deleteColumn(req: Request, res: Response){
 }
 
 export async function addNewColumn(req:Request, res:Response){
-    const data = req.body
-    console.log(data)
-    res.json({message: 'Data recieved', data})
+    const {name, boardId: board_id} = req.body
+    try{
+        const {error} = await supabase.from('columns').insert({name, board_id})
+
+        if(error){
+            return res.status(400).json({message: 'Failed to add new column', error})
+        }
+
+        return res.status(200).json({message: 'Added new column'})
+    } catch(err){
+        return res.status(400).json({message: err})
+    }
 }

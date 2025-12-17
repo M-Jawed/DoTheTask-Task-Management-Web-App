@@ -15,7 +15,16 @@ type BoardContextProps = {
   setEditModal: React.Dispatch<React.SetStateAction<boolean>>
   columns: Columns[]
   getCurrentBoardColumns: (boardId: string) => Promise<void>
+  setNewColumnField: React.Dispatch<React.SetStateAction<NewColumn>>
+  handleNewColumn: () => void
+  newColumnField: NewColumn
+  resetNewColumnField: () => void
 };
+
+type NewColumn = {
+    name: string
+    boardId: string
+}
 
 export const BoardContext = createContext<BoardContextProps | null>(null);
 export const useBoard = () => {
@@ -39,6 +48,7 @@ export default function BoardContextProvider({
   const [activeBoard, setActiveBoard] = useState<BoardProps | null>(null);
   const [editModal, setEditModal] = useState<boolean>(false)
   const [columns, setColumns] = useState<Columns[]>([])
+  const [newColumnField, setNewColumnField] = useState<NewColumn>({name: '', boardId: ''})
 
    const getBoards = async () => {
     const res = await fetch("http://localhost:8001/api/boards");
@@ -68,6 +78,33 @@ export default function BoardContextProvider({
     setColumns(data)
   }
 
+  const handleNewColumn = async () => {
+    const {name, boardId} = newColumnField
+
+    if(!name || !boardId) return
+
+    try {
+      const res = await fetch(`http://localhost:8001/api/columns/newColumn`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({name, boardId})
+      })
+      const data = await res.json()
+      if(!res.ok){
+        console.error(data.message)
+      }
+      console.log(data)
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+  const resetNewColumnField = () => {
+    setNewColumnField({name: '', boardId: ''})
+  }
+
   useEffect(() => {
     getBoards()
   }, [])
@@ -77,7 +114,7 @@ export default function BoardContextProvider({
   }, [boardSlug])
 
   return (
-    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns }}>
+    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField }}>
       {" "}
       {children}{" "}
     </BoardContext.Provider>
