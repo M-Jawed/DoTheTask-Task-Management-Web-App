@@ -111,7 +111,7 @@ export default function BoardContextProvider({
 
   useEffect(() => {
     getCurrentBoard()
-  }, [boardSlug])
+  }, [boardSlug, columns])
 
   return (
     <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField }}>

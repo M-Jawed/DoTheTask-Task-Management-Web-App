@@ -13,6 +13,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
   const {boards, activeBoard, setActiveBoard, editModal, setEditModal} = useBoard()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false)
+  const [openNewTaskModal, setOpenNewTaskModal] = useState<boolean>(false)
   const [columns, setColumns] = useState<Columns[]>([])
 
   const getCurrentBoardColumns = async (boardId: string) => {
@@ -23,7 +24,6 @@ export default function Header({boardSlug}: {boardSlug: string}) {
         return
       }
       const data = await res.json()
-      console.log(data)
       setColumns(data)
     } catch(err){
       console.error(err)

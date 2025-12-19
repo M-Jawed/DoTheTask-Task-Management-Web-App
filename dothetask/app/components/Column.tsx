@@ -1,9 +1,11 @@
-export default async function Column({children}: {children: React.ReactNode}){
+import type { Columns } from "./Board"
+
+export default function Column({item}: {item: Columns}){
     return (
-        <div>
-            This a column
+        <div className="min-w-[300px] shrink-0 h-full px-2 py-2">
+            <h1> {item.name} </h1>
             <div>
-                {children}
+                <h1>Tasks goes here</h1>
             </div>
         </div>
     )
