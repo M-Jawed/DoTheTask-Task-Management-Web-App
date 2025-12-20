@@ -66,7 +66,7 @@ export default function SideNav() {
         toggleNav
           ? "w-[23%] transition-all duration-200 delay-100 ease-in-out"
           : "w-[2%]"
-      } relative`}
+      }`}
     >
       <div className={`${toggleNav ? "flex flex-col" : "hidden"} `}>
         <div className="flex items-center gap-2 px-1 py-4">

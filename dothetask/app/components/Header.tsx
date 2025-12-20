@@ -8,6 +8,7 @@ import type { BoardProps } from "./SideNav";
 import DeleteBoard from "../modals/DeleteBoard";
 import EditBoard from "../modals/EditBoard";
 import type { Columns } from "./Board";
+import NewTaskModal from "../modals/NewTask";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
   const {boards, activeBoard, setActiveBoard, editModal, setEditModal} = useBoard()
@@ -34,6 +35,14 @@ export default function Header({boardSlug}: {boardSlug: string}) {
     if(activeBoard?.id){
       getCurrentBoardColumns(activeBoard.id)
     }
+  }
+
+  const showTaskModal = () => {
+    setOpenNewTaskModal(prev => !prev)
+  }
+
+  const closeTaskModal = () => {
+    setOpenNewTaskModal(false)
   }
 
   const showDeleteModal = () => {
@@ -71,7 +80,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
           <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >
         </div>
         <div className="w-[25%] flex items-center gap-2 px-2">
-          <button className="w-[65%] bg-[#4682B4] px-2 py-2 text-white rounded-lg text-lg font-medium cursor-pointer hover:bg-[#0077B6]">
+          <button onClick={showTaskModal} className="w-[65%] bg-[#4682B4] px-2 py-2 text-white rounded-lg text-lg font-medium cursor-pointer hover:bg-[#0077B6]">
             Add new task
           </button>
           <button onClick={showDeleteModal} className="w-[15%] py-2 px-[10px] bg-red-500 flex items-center justify-center text-xl rounded-lg cursor-pointer">
@@ -86,6 +95,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
       </div>
       {openDeleteModal && activeBoard && <DeleteBoard deleteModal={openDeleteModal} closeDeleteModal={closeDeleteModal} currentBoard={activeBoard} />}
       {toggleEditModal && activeBoard && <EditBoard currentBoard={activeBoard} editModal={toggleEditModal} currentBoardColumns={columns} closeEditModal={closeEditModal} onColumnsChange={refreshColumns} />}
+      {openNewTaskModal && <NewTaskModal newTaskModal={openNewTaskModal} closeTaskModal={closeTaskModal} />}
     </header>
   );
 }
