@@ -7,6 +7,7 @@ import type { Express } from 'express'
 import type { Request, Response } from 'express'
 import { boardRouter } from './routes/boardRouter'
 import { columnRouter } from './routes/columnRouter'
+import { taskRouter } from './routes/taskRouter'
 
 
 const PORT: number = 8001
@@ -20,6 +21,7 @@ app.use(express.json())
 
 app.use('/api', boardRouter)
 app.use('/api', columnRouter)
+app.use('/api', taskRouter)
 
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

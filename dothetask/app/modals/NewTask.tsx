@@ -12,6 +12,7 @@ export type NewTaskProps = {
   status: string;
   column_id: string;
   message?: string
+  success?: boolean
 };
 
 export default function NewTaskModal({
@@ -32,7 +33,7 @@ export default function NewTaskModal({
     const currentColumn = columns.find((item:Columns) => item.name === status)
 
     if(!name || !description) {
-        return {...prevState, message: 'All fields are required'}
+        return {...prevState, message: 'All fields are required', success: false}
     }
 
     if(!currentColumn) {
@@ -52,7 +53,7 @@ export default function NewTaskModal({
     console.log(newTaskData)
     console.log(`The user selected the column of ${currentColumn.name} and the id is ${currentColumn.id}`)
 
-    return {name, description, status, column_id, message: 'Task created succesfully'}
+    return {name, description, status, column_id, message: 'Task created succesfully', success: true}
   };
 
   const [data, action, isPending] = useActionState<NewTaskProps, FormData>(
@@ -129,6 +130,8 @@ export default function NewTaskModal({
           >
             {isPending ? 'Adding...' : 'Add Task'}
           </button>
+
+          {data?.message ? <p className={`${data?.success ? 'text-green-500' : 'text-red-500'} font-lg mt-5 font-medium text-center w-full`}> {data.message} </p> : ''}
         </Form>
       </div>
     </section>
