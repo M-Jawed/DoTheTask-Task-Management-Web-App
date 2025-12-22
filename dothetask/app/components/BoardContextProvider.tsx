@@ -5,6 +5,7 @@ import React from "react";
 import type { BoardProps } from "./SideNav";
 import type { Columns } from "./Board";
 import getBoardDataBySlug from "../utils/getBoardDataBySlug";
+import type { TaskProps } from "./Task";
 
 type BoardContextProps = {
   boards: BoardProps[];
@@ -19,6 +20,7 @@ type BoardContextProps = {
   handleNewColumn: () => void
   newColumnField: NewColumn
   resetNewColumnField: () => void
+  tasks: TaskProps[]
 };
 
 type NewColumn = {
@@ -48,6 +50,7 @@ export default function BoardContextProvider({
   const [activeBoard, setActiveBoard] = useState<BoardProps | null>(null);
   const [editModal, setEditModal] = useState<boolean>(false)
   const [columns, setColumns] = useState<Columns[]>([])
+  const [tasks, setTasks] = useState<TaskProps[]>([])
   const [newColumnField, setNewColumnField] = useState<NewColumn>({name: '', boardId: ''})
 
    const getBoards = async () => {
@@ -65,6 +68,20 @@ export default function BoardContextProvider({
     const current = await getBoardDataBySlug(boardSlug!)
     if(current.success){
       getCurrentBoardColumns(current.board.id)
+    }
+  }
+
+  const getAllTasks = async () => {
+    try {
+      const res = await fetch('http://localhost:8001/api/tasks')
+      if(!res.ok){
+        console.error('Failed to get tasks')
+        return
+      }
+      const data = await res.json()
+      setTasks(data)
+    } catch(err){
+      console.error(err instanceof Error ? err.message : String(err))
     }
   }
 
@@ -95,7 +112,6 @@ export default function BoardContextProvider({
       if(!res.ok){
         console.error(data.message)
       }
-      console.log(data)
     } catch(err){
       console.error(err)
     }
@@ -107,6 +123,7 @@ export default function BoardContextProvider({
 
   useEffect(() => {
     getBoards()
+    getAllTasks()
   }, [])
 
   useEffect(() => {
@@ -114,7 +131,7 @@ export default function BoardContextProvider({
   }, [boardSlug, columns])
 
   return (
-    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField }}>
+    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks }}>
       {" "}
       {children}{" "}
     </BoardContext.Provider>

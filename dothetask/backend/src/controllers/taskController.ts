@@ -27,5 +27,17 @@ export async function getTasks(req: Request, res: Response<Tasks[] | {message: s
 }
 
 export async function addNewTask(req: Request, res: Response) {
+  const {name, description, status, column_id} = req.body
+
+  try {
+    const {error} = await supabase.from('tasks').insert({name, description, status, column_id})
     
-}
+    if(error){
+      return res.status(400).json({message: 'Failed to insert the data to the supabase table'})
+    }
+
+    res.status(200).json({message: 'Succesfully inserted new data to the supabase table'})
+  } catch(err){
+    return res.status(400).json({message: err instanceof Error ? err.message : String(err)})
+  }
+} 

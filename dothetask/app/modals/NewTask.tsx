@@ -50,8 +50,24 @@ export default function NewTaskModal({
         column_id
     }
 
-    console.log(newTaskData)
-    console.log(`The user selected the column of ${currentColumn.name} and the id is ${currentColumn.id}`)
+    try {
+        const res = await fetch('http://localhost:8001/api/tasks/newTask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newTaskData)
+        })
+        if(!res.ok){
+          console.error('Failed to send data')
+          return {...prevState, message: 'Failed to send data', success: false}
+        }
+        const data = await res.json()
+        console.log(data)
+
+    } catch(err){
+      console.error(err instanceof Error ? err.message : String(err))
+    }
 
     return {name, description, status, column_id, message: 'Task created succesfully', success: true}
   };
