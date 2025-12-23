@@ -5,6 +5,7 @@ import type { BoardProps } from "./SideNav"
 import { useBoard } from "./BoardContextProvider"
 import EditBoard from "../modals/EditBoard"
 import Column from "./Column"
+import PreviewTask from "../modals/PreviewTask"
 
 export type Columns = {
     id: string
@@ -15,7 +16,7 @@ export type Columns = {
 }
 
 export default function Board({boardSlug}: {boardSlug: string}){
-    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns} = useBoard()
+    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask} = useBoard()
 
     const showEditModal = () => {
         setEditModal(prev => !prev)
@@ -36,6 +37,7 @@ export default function Board({boardSlug}: {boardSlug: string}){
                 {editModal ? <EditBoard currentBoard={activeBoard!} editModal={editModal} currentBoardColumns={columns} closeEditModal={hideEditModal} onColumnsChange={() => {
                     if(activeBoard) getCurrentBoardColumns(activeBoard.id)
                 }} /> : ''}
+                {previewTask ? <PreviewTask /> : ''}
         </section>
     )
 }

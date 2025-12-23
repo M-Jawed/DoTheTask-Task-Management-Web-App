@@ -1,3 +1,8 @@
+'use client'
+
+import { useEffect } from "react"
+import { useBoard } from "./BoardContextProvider"
+
 export type TaskProps = {
     id: string
     created_at: string
@@ -9,10 +14,17 @@ export type TaskProps = {
 }
 
 export default function Task({task}: {task: TaskProps}) {
+    const {setCurrentTask, setPreviewTask, currentTask} = useBoard()
+
+    const handlePreview = () => {
+        setCurrentTask({...task})
+        setPreviewTask(true)
+    }
+
     return (
-        <div className="w-full flex flex-col items-start px-2 py-2 border-1 mb-3">
-            <h1> {task.name} </h1>
-            <p> {task.description} </p>
+        <div onClick={() => handlePreview()} className="w-[300px] h-[130px] flex flex-col items-start px-5 py-5 bg-white rounded-lg shadow-sm mb-3 overflow-hidden cursor-pointer">
+            <h1 className="text-2xl font-medium mb-5 truncate w-full"> {task.name} </h1>
+            <p className="text-sm line-clamp-2"> {task.description} </p>
         </div>
     )
 }

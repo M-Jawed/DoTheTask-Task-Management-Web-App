@@ -21,6 +21,10 @@ type BoardContextProps = {
   newColumnField: NewColumn
   resetNewColumnField: () => void
   tasks: TaskProps[]
+  currentTask: TaskProps | null
+  setCurrentTask: React.Dispatch<React.SetStateAction<TaskProps | null>>
+  previewTask: boolean
+  setPreviewTask: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type NewColumn = {
@@ -51,6 +55,8 @@ export default function BoardContextProvider({
   const [editModal, setEditModal] = useState<boolean>(false)
   const [columns, setColumns] = useState<Columns[]>([])
   const [tasks, setTasks] = useState<TaskProps[]>([])
+  const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
+  const [previewTask, setPreviewTask] = useState<boolean>(false)
   const [newColumnField, setNewColumnField] = useState<NewColumn>({name: '', boardId: ''})
 
    const getBoards = async () => {
@@ -131,7 +137,7 @@ export default function BoardContextProvider({
   }, [boardSlug, columns])
 
   return (
-    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks }}>
+    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks, currentTask, setCurrentTask, setPreviewTask, previewTask }}>
       {" "}
       {children}{" "}
     </BoardContext.Provider>
