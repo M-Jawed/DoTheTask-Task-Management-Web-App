@@ -136,7 +136,7 @@ export default function SideNav() {
       {!toggleNav && (
         <button
           onClick={showNav}
-          className="absolute bottom-0 top-10 px-2 w-[100%] flex items-center justify-center bg-[#4682B4] h-[40px] rounded-r-lg cursor-pointer"
+          className="absolute bottom-0 top-140 px-2 w-[2%] flex items-center justify-center bg-[#4682B4] h-[40px] rounded-r-lg cursor-pointer"
         >
           {" "}
           <FaEye fill="white" />{" "}
