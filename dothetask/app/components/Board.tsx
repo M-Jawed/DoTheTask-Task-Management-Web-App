@@ -6,6 +6,7 @@ import { useBoard } from "./BoardContextProvider"
 import EditBoard from "../modals/EditBoard"
 import Column from "./Column"
 import PreviewTask from "../modals/PreviewTask"
+import EditTask from "../modals/EditTask"
 
 export type Columns = {
     id: string
@@ -16,7 +17,7 @@ export type Columns = {
 }
 
 export default function Board({boardSlug}: {boardSlug: string}){
-    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask} = useBoard()
+    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask} = useBoard()
 
     const showEditModal = () => {
         setEditModal(prev => !prev)
@@ -38,6 +39,7 @@ export default function Board({boardSlug}: {boardSlug: string}){
                     if(activeBoard) getCurrentBoardColumns(activeBoard.id)
                 }} /> : ''}
                 {previewTask ? <PreviewTask /> : ''}
+                {toggleEditTask ? <EditTask task={currentTask!} /> : ''}
         </section>
     )
 }

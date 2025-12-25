@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function PreviewTask(){
     const [taskOptionsModal, setTaskOptionsModal] = useState<boolean>(false)
-    const {currentTask, setPreviewTask} = useBoard()
+    const {currentTask, setPreviewTask, setToggleEditTask} = useBoard()
 
     const closeModal = () => {
         setPreviewTask(false)
@@ -16,6 +16,11 @@ export default function PreviewTask(){
 
     const showTaskOptions = () => {
         setTaskOptionsModal(prev => !prev)
+    }
+
+    const toggleEditTask = () => {
+        setToggleEditTask(prev => !prev)
+        closeModal()
     }
     return (
         <section className='w-full h-screen inset-0 absolute bg-black/50 z-50 flex items-center justify-center'>
@@ -28,7 +33,7 @@ export default function PreviewTask(){
                     </div>
                     {taskOptionsModal && (
                         <div className="absolute right-0 w-[30%] h-[100px] top-12 flex flex-col items-start px-2 py-2 rounded-lg bg-white shadow-xl">
-                            <button className="w-full text-start px-2 py-2 cursor-pointer text-md">Edit Task</button>
+                            <button onClick={toggleEditTask} className="w-full text-start px-2 py-2 cursor-pointer text-md">Edit Task</button>
                             <button className="w-full text-start px-2 py-2 text-md text-red-500 font-medium cursor-pointer">Delete Task</button>
                         </div>
                     )}
