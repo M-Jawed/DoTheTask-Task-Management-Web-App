@@ -40,3 +40,9 @@ export async function addNewTask(req: Request, res: Response) {
     return res.status(400).json({message: err instanceof Error ? err.message : String(err)})
   }
 } 
+
+export async function editTask(req:Request, res:Response){
+  const data = req.body
+  console.log(data)
+  res.json({message: 'Data received', data})
+}
