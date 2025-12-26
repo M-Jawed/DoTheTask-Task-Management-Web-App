@@ -22,7 +22,7 @@ export default function NewTaskModal({
   newTaskModal: boolean;
   closeTaskModal: () => void;
 }) {
-  const { columns } = useBoard();
+  const { columns, getAllTasks } = useBoard();
   const handleNewTask = async (
     prevState: NewTaskProps,
     formData: FormData
@@ -64,6 +64,7 @@ export default function NewTaskModal({
         }
         const data = await res.json()
         console.log(data)
+        await getAllTasks()
 
     } catch(err){
       console.error(err instanceof Error ? err.message : String(err))

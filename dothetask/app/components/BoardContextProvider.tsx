@@ -27,6 +27,9 @@ type BoardContextProps = {
   setPreviewTask: React.Dispatch<React.SetStateAction<boolean>>
   toggleEditTask: boolean
   setToggleEditTask: React.Dispatch<React.SetStateAction<boolean>>
+  getAllTasks: () => Promise<void>
+  deleteTaskModal: boolean
+  setDeleteTaskModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type NewColumn = {
@@ -60,6 +63,7 @@ export default function BoardContextProvider({
   const [currentTask, setCurrentTask] = useState<TaskProps | null>(null)
   const [previewTask, setPreviewTask] = useState<boolean>(false)
   const [toggleEditTask, setToggleEditTask] = useState<boolean>(false)
+  const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false)
   const [newColumnField, setNewColumnField] = useState<NewColumn>({name: '', boardId: ''})
 
    const getBoards = async () => {
@@ -136,11 +140,15 @@ export default function BoardContextProvider({
   }, [])
 
   useEffect(() => {
+    getAllTasks()
+  }, [tasks])
+
+  useEffect(() => {
     getCurrentBoard()
   }, [boardSlug, columns])
 
   return (
-    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks, currentTask, setCurrentTask, setPreviewTask, previewTask, toggleEditTask, setToggleEditTask }}>
+    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks, currentTask, setCurrentTask, setPreviewTask, previewTask, toggleEditTask, setToggleEditTask, getAllTasks, deleteTaskModal, setDeleteTaskModal }}>
       {" "}
       {children}{" "}
     </BoardContext.Provider>

@@ -12,10 +12,12 @@ type EditTaskProps = {
     description: string
     status: string
     taskId: string
+    message?: string
+    success?: boolean
 }
 
 export default function EditTask({task}: {task: TaskProps}) {
-  const { columns, setToggleEditTask } = useBoard();
+  const { columns, setToggleEditTask, getAllTasks } = useBoard();
 
 
   const handleEdit = async (prevState: EditTaskProps, formData: FormData): Promise<EditTaskProps> => {
@@ -31,7 +33,28 @@ export default function EditTask({task}: {task: TaskProps}) {
         taskId
     }
 
-    console.log(editTaskObj)
+    if(!name || !description || !status){
+      return {...prevState, message: 'All fields are required', success: false}
+    }
+
+    try {
+      const res = await fetch('http://localhost:8001/api/tasks/edit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editTaskObj)
+      })
+      if(!res.ok){
+        console.error('Failed send data to the route')
+        return {...prevState, message: 'Failed to send data to the route', success: false}
+      }
+      const data = await res.json()
+      console.log(data)
+      await getAllTasks()
+    } catch(err){
+      console.error(err instanceof Error ? err.message : String(err))
+    }
 
     return {name: '', description: '', status: '', taskId: ''}
   }
@@ -109,7 +132,7 @@ export default function EditTask({task}: {task: TaskProps}) {
             {"Save changes"}
           </button>
 
-          {/* {data?.message ? <p className={`${data?.success ? 'text-green-500' : 'text-red-500'} font-lg mt-5 font-medium text-center w-full`}> {data.message} </p> : ''} */}
+          {data?.message ? <p className={`${data?.success ? 'text-green-500' : 'text-red-500'} font-lg mt-5 font-medium text-center w-full`}> {data.message} </p> : ''}
         </Form>
       </div>
     </section>

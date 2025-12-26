@@ -7,6 +7,7 @@ import EditBoard from "../modals/EditBoard"
 import Column from "./Column"
 import PreviewTask from "../modals/PreviewTask"
 import EditTask from "../modals/EditTask"
+import DeleteTask from "../modals/DeleteTask"
 
 export type Columns = {
     id: string
@@ -17,7 +18,7 @@ export type Columns = {
 }
 
 export default function Board({boardSlug}: {boardSlug: string}){
-    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask} = useBoard()
+    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask, deleteTaskModal} = useBoard()
 
     const showEditModal = () => {
         setEditModal(prev => !prev)
@@ -40,6 +41,7 @@ export default function Board({boardSlug}: {boardSlug: string}){
                 }} /> : ''}
                 {previewTask ? <PreviewTask /> : ''}
                 {toggleEditTask ? <EditTask task={currentTask!} /> : ''}
+                {deleteTaskModal ? <DeleteTask /> : ''}
         </section>
     )
 }

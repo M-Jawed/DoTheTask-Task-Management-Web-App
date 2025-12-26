@@ -12,10 +12,6 @@ export default function Column({item}: {item: Columns}){
     const columnTasks = tasks.filter((task: TaskProps) => task.column_id === item.id)
     const tasksLength = columnTasks.length
 
-    useEffect(() => {
-        console.log(columnTasks)
-    }, [])
-
     return (
         <div className="min-w-[300px] shrink-0 h-full px-2 py-2">
             <h1 className="mb-5 text-gray-400 font-medium tracking-widest"> {item.name} ({tasksLength}) </h1>
