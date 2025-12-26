@@ -11,7 +11,7 @@ import type { Columns } from "./Board";
 import NewTaskModal from "../modals/NewTask";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
-  const {boards, activeBoard, setActiveBoard, editModal, setEditModal} = useBoard()
+  const {boards, activeBoard, setActiveBoard, editModal, setEditModal, darkMode} = useBoard()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false)
   const [openNewTaskModal, setOpenNewTaskModal] = useState<boolean>(false)
@@ -74,7 +74,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
   }, [boards, boardSlug])
 
   return (
-    <header className="z-2 w-full h-[90px] flex items-center sticky ">
+    <header className={`z-2 w-full h-[90px] flex items-center sticky ${darkMode ? 'bg-black' : ''}`}>
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >

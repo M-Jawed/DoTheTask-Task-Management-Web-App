@@ -7,7 +7,7 @@ import { useBoard } from "../components/BoardContextProvider";
 
 type BoardFormProps = {
   toggleForm?: boolean;
-  closeBoardForm?: () => void
+  closeBoardForm: () => void
   boardName: string;
 };
 

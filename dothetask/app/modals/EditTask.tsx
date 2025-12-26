@@ -6,31 +6,39 @@ import type { Columns } from "../components/Board";
 import { useBoard } from "../components/BoardContextProvider";
 import type { TaskProps } from "../components/Task";
 import { useActionState } from "react";
+import { useState } from "react";
 
 type EditTaskProps = {
     name: string
     description: string
     status: string
-    taskId: string
+    id: string
     message?: string
     success?: boolean
 }
 
 export default function EditTask({task}: {task: TaskProps}) {
-  const { columns, setToggleEditTask, getAllTasks } = useBoard();
+  const { columns, setToggleEditTask, getAllTasks, activeBoard } = useBoard();
+  const [editTaskField, setEditTaskField] = useState<EditTaskProps>({
+    name: task.name, 
+    description: task.description, 
+    status: task.status, 
+    id: task.id
+  })
 
 
   const handleEdit = async (prevState: EditTaskProps, formData: FormData): Promise<EditTaskProps> => {
-    const name = formData.get('taskName')
-    const description = formData.get('taskDesc')
-    const status = formData.get('status')
-    const taskId = task.id
+    const name = editTaskField?.name
+    const description = editTaskField?.description
+    const status = editTaskField?.status
+    const taskId = editTaskField?.id
 
     const editTaskObj = {
         name, 
         description,
         status,
-        taskId
+        taskId,
+        boardId: activeBoard?.id
     }
 
     if(!name || !description || !status){
@@ -56,10 +64,10 @@ export default function EditTask({task}: {task: TaskProps}) {
       console.error(err instanceof Error ? err.message : String(err))
     }
 
-    return {name: '', description: '', status: '', taskId: ''}
+    return {name: name as string, description: description as string, status: status as string, id: ''}
   }
 
-  const [data, action, isPending] = useActionState<EditTaskProps, FormData>(handleEdit, {name: '', description: '', status: '', taskId: ''})
+  const [data, action, isPending] = useActionState<EditTaskProps, FormData>(handleEdit, {name: '', description: '', status: '', id: ''})
   const closeEditTask = () => {
     setToggleEditTask(false)
   }
@@ -90,7 +98,8 @@ export default function EditTask({task}: {task: TaskProps}) {
             id="taskName"
             placeholder="Wash the dishes"
             className="border-1 px-2 py-2 w-full rounded-sm outline-none mb-5"
-            defaultValue={task.name}
+            value={editTaskField?.name}
+            onChange={(e) => setEditTaskField({...editTaskField, name: e.target.value})}
           />
 
           <label
@@ -103,7 +112,8 @@ export default function EditTask({task}: {task: TaskProps}) {
             name="taskDesc"
             id="taskDesc"
             className="border-1 px-2 py-2 w-full rounded-sm outline-none mb-5"
-            defaultValue={task.description}
+            value={editTaskField?.description}
+            onChange={(e) => setEditTaskField({...editTaskField, description: e.target.value})}
           ></textarea>
 
           <label
@@ -116,7 +126,8 @@ export default function EditTask({task}: {task: TaskProps}) {
             name="status"
             id="status"
             className="w-full px-2 py-2 border-1 rounded-sm"
-            defaultValue={task.status}
+            value={editTaskField?.status}
+            onChange={(e) => setEditTaskField({...editTaskField, status: e.target.value})}
           >
             {columns.map((item: Columns) => (
               <option key={item.id} value={item.name}> 

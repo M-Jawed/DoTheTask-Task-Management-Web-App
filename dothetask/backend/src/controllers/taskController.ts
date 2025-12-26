@@ -42,7 +42,7 @@ export async function addNewTask(req: Request, res: Response<{message: string}>)
 } 
 
 export async function editTask(req:Request, res:Response<{message: string}>){
-  const {name, description, status, taskId: id} = req.body
+  const {name, description, status, taskId: id, boardId} = req.body
 
   if(!name || !description || !status) {
     return res.status(400).json({message: 'All fields are required'})
@@ -53,11 +53,20 @@ export async function editTask(req:Request, res:Response<{message: string}>){
   }
 
   try {
-    const {error} = await supabase.from('tasks').update({name, description, status}).eq('id', id)
+
+    const {data: column, error: columnError} = await supabase.from('columns').select('id').eq('name', status).eq('board_id', boardId).single()
+
+    if(columnError || !column){
+      return res.status(400).json({message: 'Invalid status.'})
+    }
+
+    const {error} = await supabase.from('tasks').update({name, description, status, column_id: column.id}).eq('id', id)
     if(error){
       return res.status(400).json({message: 'Failed to edit task'})
     }
+
     res.status(200).json({message: 'Task updated succesfully'})
+
   } catch(err){
     return res.status(400).json({message: err instanceof Error ? err.message : String(err)})
   }

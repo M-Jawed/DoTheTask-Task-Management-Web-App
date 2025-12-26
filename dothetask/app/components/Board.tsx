@@ -18,7 +18,7 @@ export type Columns = {
 }
 
 export default function Board({boardSlug}: {boardSlug: string}){
-    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask, deleteTaskModal} = useBoard()
+    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask, deleteTaskModal, darkMode} = useBoard()
 
     const showEditModal = () => {
         setEditModal(prev => !prev)
@@ -29,7 +29,7 @@ export default function Board({boardSlug}: {boardSlug: string}){
     }
 
     return (
-        <section className="w-full flex flex-col items-center bg-gray-100 h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide">
+        <section className={`w-full flex flex-col items-center ${darkMode ? 'bg-black' : 'bg-gray-100'} h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide`}>
             <div className={`flex gap-4 w-full px-5 py-2 h-full overflow-x-auto scrollbar-hide`}>
                 {columns?.map((item) => <Column key={item.id} item={item} /> )}
                 <div className="flex items-center justify-center h-full min-w-[150px]">

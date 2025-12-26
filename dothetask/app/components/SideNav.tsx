@@ -21,27 +21,18 @@ export type BoardProps = {
 
 export default function SideNav() {
   const [toggleNav, setToggleNav] = useState<boolean>(true);
-  const [toggleTheme, setToggleTheme] = useState<boolean>(false);
-  const [themeText, setThemeText] = useState<string>();
   const [toggleBoardForm, setToggleBoardForm] = useState<boolean>(false);
-  const { boards } = useBoard();
+  const { boards, setDarkMode, darkMode } = useBoard();
   const router = useRouter();
   const pathname = usePathname();
+  const themeText = darkMode ? 'Toggle Lightmode' : 'Toggle Darkmode'
 
   const hideNav = () => {
     setToggleNav(false);
   };
 
-  const theme = () => {
-    if (toggleTheme) {
-      setThemeText("Toggle Lightmode");
-    } else {
-      setThemeText("Toggle Darkmode");
-    }
-  };
-
   const toggleDarkmode = () => {
-    setToggleTheme((prev) => !prev);
+    setDarkMode(prev => !prev)
   };
 
   const showNav = () => {
@@ -55,10 +46,6 @@ export default function SideNav() {
   const closeBoardForm = () => {
     setToggleBoardForm(false);
   };
-
-  useEffect(() => {
-    theme();
-  }, [toggleTheme]);
 
   return (
     <section
@@ -111,9 +98,9 @@ export default function SideNav() {
 
           <div className="px-5">
             <button
-              onClick={toggleDarkmode}
+              onClick={() => toggleDarkmode()}
               className={`w-[80%] h-[50px] rounded-lg ${
-                toggleTheme ? "bg-gray-200" : "bg-black text-white font-medium"
+                darkMode ? "bg-gray-200" : "bg-black text-white font-medium"
               } `}
             >
               {" "}
