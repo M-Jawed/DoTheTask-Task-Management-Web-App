@@ -1,0 +1,1 @@
+{"version":3,"file":"columnRouter.js","sourceRoot":"","sources":["../../src/routes/columnRouter.ts"],"names":[],"mappings":";;;;;;AAAA,sDAA6B;AAE7B,sEAAwF;AAE3E,QAAA,YAAY,GAAU,iBAAO,CAAC,MAAM,EAAE,CAAA;AAEnD,oBAAY,CAAC,MAAM,CAAC,iCAAiC,EAAE,+BAAY,CAAC,CAAA;AACpE,oBAAY,CAAC,IAAI,CAAC,oBAAoB,EAAE,+BAAY,CAAC,CAAA;AACrD,oBAAY,CAAC,GAAG,CAAC,mBAAmB,EAAE,6BAAU,CAAC,CAAA"}

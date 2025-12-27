@@ -66,6 +66,7 @@ export default function NewTaskModal({
         }
         const data = await res.json()
         await getAllTasks()
+        closeTaskModal()
 
     } catch(err){
       console.error(err instanceof Error ? err.message : String(err))

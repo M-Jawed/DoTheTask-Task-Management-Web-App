@@ -60,6 +60,7 @@ export default function EditTask({task}: {task: TaskProps}) {
         return {...prevState, message: 'Failed to send data to the route', success: false}
       }
       const data = await res.json()
+      closeEditTask()
       await getAllTasks()
     } catch(err){
       console.error(err instanceof Error ? err.message : String(err))

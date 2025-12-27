@@ -21,6 +21,8 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
   const handleNewBoardForm = async (prevData: any, formData: FormData) => {
     const boardName = formData.get("boardName");
 
+    if(!boardName) return
+
     const formObj = {
       name: boardName,
     };
@@ -41,6 +43,7 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
         return;
       }
       setSuccessMessage(data.message)
+      closeBoardForm()
     } catch (err) {
       console.error(err);
     }

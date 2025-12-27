@@ -1,0 +1,11 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npm run build",
+    "watchPatterns": ["dothetask/backend/**"]
+  },
+  "deploy": {
+    "startCommand": "npm run start",
+    "workingDirectory": "dothetask/backend"
+  }
+}
