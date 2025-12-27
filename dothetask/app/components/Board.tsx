@@ -8,6 +8,7 @@ import Column from "./Column"
 import PreviewTask from "../modals/PreviewTask"
 import EditTask from "../modals/EditTask"
 import DeleteTask from "../modals/DeleteTask"
+import { useDarkMode } from "./DarkModeProvider"
 
 export type Columns = {
     id: string
@@ -18,7 +19,8 @@ export type Columns = {
 }
 
 export default function Board({boardSlug}: {boardSlug: string}){
-    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask, deleteTaskModal, darkMode} = useBoard()
+    const {editModal, activeBoard, columns, setEditModal, getCurrentBoardColumns, previewTask, currentTask, setToggleEditTask, toggleEditTask, deleteTaskModal} = useBoard()
+    const {darkMode} = useDarkMode()
 
     const showEditModal = () => {
         setEditModal(prev => !prev)
@@ -29,11 +31,11 @@ export default function Board({boardSlug}: {boardSlug: string}){
     }
 
     return (
-        <section className={`w-full flex flex-col items-center ${darkMode ? 'bg-black' : 'bg-gray-100'} h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide`}>
+        <section className={`w-full flex flex-col items-center ${darkMode ? 'bg-[#222831]' : 'bg-gray-100'} h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide`}>
             <div className={`flex gap-4 w-full px-5 py-2 h-full overflow-x-auto scrollbar-hide`}>
                 {columns?.map((item) => <Column key={item.id} item={item} /> )}
                 <div className="flex items-center justify-center h-full min-w-[150px]">
-                    <button onClick={showEditModal} className="w-ful h-full bg-gray-200 px-3 cursor-pointer text-lg font-medium text-gray-400 hover:bg-gray-300">+New Column</button>
+                    <button onClick={showEditModal} className={`w-ful h-full ${darkMode ? 'bg-[#393E46] hover:bg-gray-700' : 'bg-gray-200 hover:bg-gray-300'} px-3 cursor-pointer text-lg font-medium text-gray-400`}>+New Column</button>
                 </div>
             </div>
                 {editModal ? <EditBoard currentBoard={activeBoard!} editModal={editModal} currentBoardColumns={columns} closeEditModal={hideEditModal} onColumnsChange={() => {

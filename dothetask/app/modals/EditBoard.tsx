@@ -9,6 +9,7 @@ import { useBoard } from "../components/BoardContextProvider";
 import { useRouter } from "next/navigation";
 import type { Columns } from "../components/Board";
 import EditColumns from "./EditColumns";
+import { useDarkMode } from "../components/DarkModeProvider";
 
 type EditBoard = {
   name: string;
@@ -34,6 +35,7 @@ export default function EditBoard({
   const [columns, setColumns] = useState<Columns[]>(currentBoardColumns);
   const { getBoards, handleNewColumn, newColumnField, resetNewColumnField } =
     useBoard();
+  const {darkMode} = useDarkMode()
   const router = useRouter();
 
   useEffect(() => {
@@ -115,7 +117,7 @@ export default function EditBoard({
           : "hidden"
       }
     >
-      <div className="w-[40%] flex flex-col items-start bg-white px-10 py-10 rounded-lg">
+      <div className={`${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} w-[40%] flex flex-col items-start px-10 py-10 rounded-lg`}>
         <div className="flex items-center justify-between w-full">
           <h1 className="text-xl font-medium">Edit Board</h1>
           <RiCloseLargeFill

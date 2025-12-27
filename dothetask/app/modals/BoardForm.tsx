@@ -4,6 +4,7 @@ import { useState, useActionState } from "react";
 import Form from "next/form";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { useBoard } from "../components/BoardContextProvider";
+import { useDarkMode } from "../components/DarkModeProvider";
 
 type BoardFormProps = {
   toggleForm?: boolean;
@@ -15,6 +16,7 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [successMessage, setSuccessMessage] = useState<string>("")
     const {getBoards} = useBoard()
+    const {darkMode} = useDarkMode()
 
   const handleNewBoardForm = async (prevData: any, formData: FormData) => {
     const boardName = formData.get("boardName");
@@ -55,14 +57,14 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
   );
   return (
     <section
-      className={`${
+      className={` ${
         toggleForm
           ? "fixed inset-0 flex items-center justify-center bg-black/50 z-50"
           : "hidden"
       }`}
       onClick={handleCloseBoardForm}
     >
-      <div className="bg-white w-[450px] h-[40%] py-10 px-6 rounded-xl"
+      <div className={`${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} w-[450px] h-[40%] py-10 px-6 rounded-xl`}
       onClick={e => e.stopPropagation()}>
       <div className="w-full flex items-center justify-between px-2">
         <h1 className="text-xl font-medium">Add a new board</h1>

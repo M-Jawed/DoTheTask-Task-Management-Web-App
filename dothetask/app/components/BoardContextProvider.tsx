@@ -30,8 +30,6 @@ type BoardContextProps = {
   getAllTasks: () => Promise<void>
   deleteTaskModal: boolean
   setDeleteTaskModal: React.Dispatch<React.SetStateAction<boolean>>
-  darkMode: boolean
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type NewColumn = {
@@ -66,7 +64,6 @@ export default function BoardContextProvider({
   const [previewTask, setPreviewTask] = useState<boolean>(false)
   const [toggleEditTask, setToggleEditTask] = useState<boolean>(false)
   const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false)
-  const [darkMode, setDarkMode] = useState<boolean>(false)
   const [newColumnField, setNewColumnField] = useState<NewColumn>({name: '', boardId: ''})
 
    const getBoards = async () => {
@@ -151,7 +148,7 @@ export default function BoardContextProvider({
   }, [boardSlug, columns])
 
   return (
-    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks, currentTask, setCurrentTask, setPreviewTask, previewTask, toggleEditTask, setToggleEditTask, getAllTasks, deleteTaskModal, setDeleteTaskModal, darkMode, setDarkMode }}>
+    <BoardContext.Provider value={{ boards, activeBoard, setActiveBoard, getBoards, editModal, setEditModal, columns, getCurrentBoardColumns, setNewColumnField, handleNewColumn, newColumnField, resetNewColumnField, tasks, currentTask, setCurrentTask, setPreviewTask, previewTask, toggleEditTask, setToggleEditTask, getAllTasks, deleteTaskModal, setDeleteTaskModal }}>
       {" "}
       {children}{" "}
     </BoardContext.Provider>

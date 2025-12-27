@@ -11,6 +11,7 @@ import { useBoard } from "./BoardContextProvider";
 import { FaFolderPlus } from "react-icons/fa6";
 import BoardForm from "../modals/BoardForm";
 import { FaLinesLeaning } from "react-icons/fa6";
+import { useDarkMode } from "./DarkModeProvider";
 
 export type BoardProps = {
   id: string;
@@ -22,17 +23,14 @@ export type BoardProps = {
 export default function SideNav() {
   const [toggleNav, setToggleNav] = useState<boolean>(true);
   const [toggleBoardForm, setToggleBoardForm] = useState<boolean>(false);
-  const { boards, setDarkMode, darkMode } = useBoard();
+  const { boards } = useBoard();
+  const {darkMode, setDarkMode} = useDarkMode()
   const router = useRouter();
   const pathname = usePathname();
   const themeText = darkMode ? 'Toggle Lightmode' : 'Toggle Darkmode'
 
   const hideNav = () => {
     setToggleNav(false);
-  };
-
-  const toggleDarkmode = () => {
-    setDarkMode(prev => !prev)
   };
 
   const showNav = () => {
@@ -49,9 +47,9 @@ export default function SideNav() {
 
   return (
     <section
-      className={`${
+      className={`${darkMode ? 'bg-[#1A1A1D] text-white ' : ''} ${
         toggleNav
-          ? "w-[23%] transition-all duration-200 delay-100 ease-in-out"
+          ? "w-[23%] h-full transition-all duration-200 delay-100 ease-in-out"
           : "w-[2%]"
       }`}
     >
@@ -76,7 +74,7 @@ export default function SideNav() {
                   <button
                     onClick={() => router.push(`/boards/${item.slug}`)}
                     key={item.id}
-                    className={`flex items-center gap-2 mb-1 w-[100%] h-[50px] px-5 ${smallText} font-medium rounded-r-xl cursor-pointer hover:bg-[#4682B4] hover:text-white ${
+                    className={`flex items-center gap-2 mb-1 w-[96%] h-[50px] px-5 ${smallText} font-medium rounded-r-xl cursor-pointer hover:bg-[#4682B4] hover:text-white ${
                       isAcive ? "bg-[#4682B4] text-white" : ""
                     } `}
                   >
@@ -98,9 +96,9 @@ export default function SideNav() {
 
           <div className="px-5">
             <button
-              onClick={() => toggleDarkmode()}
+              onClick={() => setDarkMode(prev => !prev)}
               className={`w-[80%] h-[50px] rounded-lg ${
-                darkMode ? "bg-gray-200" : "bg-black text-white font-medium"
+                darkMode ? "bg-gray-200 text-black font-medium" : "bg-black text-white font-medium"
               } `}
             >
               {" "}

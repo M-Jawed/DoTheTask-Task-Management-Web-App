@@ -9,9 +9,11 @@ import DeleteBoard from "../modals/DeleteBoard";
 import EditBoard from "../modals/EditBoard";
 import type { Columns } from "./Board";
 import NewTaskModal from "../modals/NewTask";
+import { useDarkMode } from "./DarkModeProvider";
 
 export default function Header({boardSlug}: {boardSlug: string}) {
-  const {boards, activeBoard, setActiveBoard, editModal, setEditModal, darkMode} = useBoard()
+  const {boards, activeBoard, setActiveBoard, editModal, setEditModal} = useBoard()
+  const {darkMode} = useDarkMode()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false)
   const [openNewTaskModal, setOpenNewTaskModal] = useState<boolean>(false)
@@ -74,7 +76,7 @@ export default function Header({boardSlug}: {boardSlug: string}) {
   }, [boards, boardSlug])
 
   return (
-    <header className={`z-2 w-full h-[90px] flex items-center sticky ${darkMode ? 'bg-black' : ''}`}>
+    <header className={`z-2 w-full h-[90px] flex items-center sticky px-2 ${darkMode ? 'bg-[#1A1A1D] text-white' : ''}`}>
       <div className="w-full flex items-center justify-between">
         <div>
           <h1 className="font-medium text-3xl"> {activeBoard?.name} </h1  >
