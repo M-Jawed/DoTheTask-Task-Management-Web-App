@@ -7,6 +7,7 @@ import { useBoard } from "../components/BoardContextProvider";
 import type { TaskProps } from "../components/Task";
 import { useActionState } from "react";
 import { useState } from "react";
+import { useDarkMode } from "../components/DarkModeProvider";
 
 type EditTaskProps = {
     name: string
@@ -19,6 +20,7 @@ type EditTaskProps = {
 
 export default function EditTask({task}: {task: TaskProps}) {
   const { columns, setToggleEditTask, getAllTasks, activeBoard } = useBoard();
+  const {darkMode} = useDarkMode()
   const [editTaskField, setEditTaskField] = useState<EditTaskProps>({
     name: task.name, 
     description: task.description, 
@@ -58,7 +60,6 @@ export default function EditTask({task}: {task: TaskProps}) {
         return {...prevState, message: 'Failed to send data to the route', success: false}
       }
       const data = await res.json()
-      console.log(data)
       await getAllTasks()
     } catch(err){
       console.error(err instanceof Error ? err.message : String(err))
@@ -73,7 +74,7 @@ export default function EditTask({task}: {task: TaskProps}) {
   }
   return (
     <section className="w-full h-screen inset-0 absolute flex items-center justify-center bg-black/50 z-50">
-      <div className="w-[40%] flex flex-col items-start bg-white rounded-lg shadow-lg px-6 py-10">
+      <div className={`w-[40%] flex flex-col items-start ${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} rounded-lg shadow-lg px-6 py-10`}>
         <div className="w-full flex items-center justify-between px-3">
           <h1 className="text-xl font-medium">Edit Task</h1>
           <button onClick={closeEditTask} type="button" className="cursor-pointer">

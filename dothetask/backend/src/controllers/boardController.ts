@@ -30,7 +30,7 @@ export async function addNewBoard(req: Request, res: Response) {
   const slug = generateSlug(name);
 
   try {
-    const { error, data } = await supabase
+    const { error } = await supabase
       .from("boards")
       .insert({ name, slug });
 

@@ -16,7 +16,7 @@ export default function Column({item}: {item: Columns}){
         <div className="min-w-[300px] shrink-0 h-full px-2 py-2">
             <h1 className="mb-5 text-gray-400 font-medium tracking-widest"> {item.name} ({tasksLength}) </h1>
             <div className="w-full h-full">
-                {columnTasks.length > 0 && columnTasks.map((item: TaskProps) => <Task key={item.id} task={item} />)}
+                {columnTasks.length > 0 ? columnTasks.map((item: TaskProps) => <Task key={item.id} task={item} />) : <p className="w-[50%] text-center text-gray-400 font-medium">No tasks to be displayed in this column. Please try adding a task.</p>}
             </div>
         </div>
     )

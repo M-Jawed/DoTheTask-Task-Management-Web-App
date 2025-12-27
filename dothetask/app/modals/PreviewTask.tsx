@@ -4,11 +4,12 @@ import { useBoard } from "../components/BoardContextProvider"
 import { RiCloseLargeFill } from "react-icons/ri";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useState } from "react";
-
+import { useDarkMode } from "../components/DarkModeProvider";
 
 export default function PreviewTask(){
     const [taskOptionsModal, setTaskOptionsModal] = useState<boolean>(false)
     const {currentTask, setPreviewTask, setToggleEditTask, setDeleteTaskModal} = useBoard()
+    const {darkMode} = useDarkMode()
 
     const closeModal = () => {
         setPreviewTask(false)
@@ -30,7 +31,7 @@ export default function PreviewTask(){
     }
     return (
         <section className='w-full h-screen inset-0 absolute bg-black/50 z-50 flex items-center justify-center'>
-            <div className="w-[40%] h-[400px] flex flex-col items-start bg-white px-5 py-5 rounded-lg overflow-y-auto">
+            <div className={`w-[40%] h-[400px] flex flex-col items-start ${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} px-5 py-5 rounded-lg overflow-y-auto`}>
                 <div className="relative w-full flex items-center justify-between ">
                     <h1 className="text-3xl font-medium mb-5">{currentTask?.name}</h1>
                     <div className="flex items-center gap-2">
@@ -38,7 +39,7 @@ export default function PreviewTask(){
                         <button onClick={showTaskOptions} className="cursor-pointer"> <HiOutlineDotsVertical size={20} /> </button>
                     </div>
                     {taskOptionsModal && (
-                        <div className="absolute right-0 w-[30%] h-[100px] top-12 flex flex-col items-start px-2 py-2 rounded-lg bg-white shadow-xl">
+                        <div className={`absolute right-0 w-[30%] h-[100px] top-12 flex flex-col items-start px-2 py-2 rounded-lg ${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} shadow-xl`}>
                             <button onClick={toggleEditTask} className="w-full text-start px-2 py-2 cursor-pointer text-md">Edit Task</button>
                             <button onClick={showDeleteTask} className="w-full text-start px-2 py-2 text-md text-red-500 font-medium cursor-pointer">Delete Task</button>
                         </div>

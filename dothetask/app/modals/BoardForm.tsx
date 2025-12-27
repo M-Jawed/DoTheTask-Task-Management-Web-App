@@ -40,7 +40,6 @@ export default function BoardForm({ toggleForm, closeBoardForm }: Omit<BoardForm
         setErrorMessage(data.message)
         return;
       }
-      console.log(data);
       setSuccessMessage(data.message)
     } catch (err) {
       console.error(err);

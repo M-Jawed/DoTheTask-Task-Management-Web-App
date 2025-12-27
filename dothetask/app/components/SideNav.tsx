@@ -50,7 +50,7 @@ export default function SideNav() {
       className={`${darkMode ? 'bg-[#1A1A1D] text-white ' : ''} ${
         toggleNav
           ? "w-[23%] h-full transition-all duration-200 delay-100 ease-in-out"
-          : "w-[2%]"
+          : "w-[0%]"
       }`}
     >
       <div className={`${toggleNav ? "flex flex-col" : "hidden"} `}>

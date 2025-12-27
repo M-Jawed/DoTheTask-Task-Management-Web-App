@@ -33,7 +33,9 @@ export default function Board({boardSlug}: {boardSlug: string}){
     return (
         <section className={`w-full flex flex-col items-center ${darkMode ? 'bg-[#222831]' : 'bg-gray-100'} h-full px-5 py-2 overflow-y-auto overflow-x-auto scrollbar-hide`}>
             <div className={`flex gap-4 w-full px-5 py-2 h-full overflow-x-auto scrollbar-hide`}>
-                {columns?.map((item) => <Column key={item.id} item={item} /> )}
+                {columns.length > 0 ? columns?.map((item) => <Column key={item.id} item={item} /> ) : ( <div>
+                    <h1 className="font-medium text-gray-400">No columns. Please try adding a column</h1>
+                </div> )}
                 <div className="flex items-center justify-center h-full min-w-[150px]">
                     <button onClick={showEditModal} className={`w-ful h-full ${darkMode ? 'bg-[#393E46] hover:bg-gray-700' : 'bg-gray-200 hover:bg-gray-300'} px-3 cursor-pointer text-lg font-medium text-gray-400`}>+New Column</button>
                 </div>

@@ -16,7 +16,6 @@ export async function getColumns(req: Request, res: Response){
 
 export async function deleteColumn(req: Request, res: Response){
     const {columnId} = req.params
-    console.log(columnId)
     try {
         const {error, data} = await supabase.from('columns').delete().eq("id", columnId).select()
         if(error){

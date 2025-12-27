@@ -5,6 +5,7 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import { useBoard } from "../components/BoardContextProvider";
 import type { Columns } from "../components/Board";
 import { useActionState } from "react";
+import { useDarkMode } from "../components/DarkModeProvider";
 
 export type NewTaskProps = {
   name: string;
@@ -23,6 +24,7 @@ export default function NewTaskModal({
   closeTaskModal: () => void;
 }) {
   const { columns, getAllTasks } = useBoard();
+  const {darkMode} = useDarkMode()
   const handleNewTask = async (
     prevState: NewTaskProps,
     formData: FormData
@@ -63,7 +65,6 @@ export default function NewTaskModal({
           return {...prevState, message: 'Failed to send data', success: false}
         }
         const data = await res.json()
-        console.log(data)
         await getAllTasks()
 
     } catch(err){
@@ -79,7 +80,7 @@ export default function NewTaskModal({
   );
   return (
     <section className="w-full h-screen inset-0 absolute flex items-center justify-center bg-black/50 z-50">
-      <div className="w-[40%] flex flex-col items-start bg-white rounded-lg px-6 py-10">
+      <div className={`w-[40%] flex flex-col items-start ${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} rounded-lg px-6 py-10`}>
         <div className="w-full flex items-center justify-between px-3">
           <h1 className="text-xl font-medium">Add New Task</h1>
           <button
@@ -131,7 +132,7 @@ export default function NewTaskModal({
           <select
             name="status"
             id="status"
-            className="w-full px-2 py-2 border-1 rounded-sm"
+            className={`w-full ${darkMode ? 'bg-[#222831] text-white' : ''} px-2 py-2 border-1 rounded-sm`}
           >
             {columns.map((item: Columns) => (
               <option key={item.id} value={item.name}>
