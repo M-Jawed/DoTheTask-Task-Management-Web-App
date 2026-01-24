@@ -11,7 +11,7 @@ type BoardProps = {
 
 export async function getBoards(
   req: Request,
-  res: Response<{ message?: string } | BoardProps[]>
+  res: Response<{ message?: string } | BoardProps[]>,
 ) {
   try {
     const { error, data } = await supabase.from("boards").select("*");
@@ -30,9 +30,7 @@ export async function addNewBoard(req: Request, res: Response) {
   const slug = generateSlug(name);
 
   try {
-    const { error } = await supabase
-      .from("boards")
-      .insert({ name, slug });
+    const { error } = await supabase.from("boards").insert({ name, slug });
 
     if (error) {
       res.status(400).json({ message: "Failed to add new board" });
@@ -61,8 +59,8 @@ export async function deleteBoard(req: Request, res: Response) {
 
     res.status(200).json({ message: "Sucessfully deleted the board" });
   } catch (err) {
+    res.status(400).json({ message: "Something went wrong" });
     console.error(err);
-    return;
   }
 }
 

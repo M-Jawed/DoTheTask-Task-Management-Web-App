@@ -23,11 +23,11 @@ export type BoardProps = {
 export default function SideNav() {
   const [toggleNav, setToggleNav] = useState<boolean>(true);
   const [toggleBoardForm, setToggleBoardForm] = useState<boolean>(false);
-  const { boards } = useBoard();
-  const {darkMode, setDarkMode} = useDarkMode()
+  const { boards, getBoards } = useBoard();
+  const { darkMode, setDarkMode } = useDarkMode();
   const router = useRouter();
   const pathname = usePathname();
-  const themeText = darkMode ? 'Toggle Lightmode' : 'Toggle Darkmode'
+  const themeText = darkMode ? "Toggle Lightmode" : "Toggle Darkmode";
 
   const hideNav = () => {
     setToggleNav(false);
@@ -45,9 +45,13 @@ export default function SideNav() {
     setToggleBoardForm(false);
   };
 
+  useEffect(() => {
+    getBoards();
+  }, [boards]);
+
   return (
     <section
-      className={`${darkMode ? 'bg-[#1A1A1D] text-white ' : ''} ${
+      className={`${darkMode ? "bg-[#1A1A1D] text-white " : ""} ${
         toggleNav
           ? "w-[23%] h-full transition-all duration-200 delay-100 ease-in-out"
           : "w-[0%]"
@@ -69,7 +73,8 @@ export default function SideNav() {
             {boards.length > 0 ? (
               boards.map((item: BoardProps) => {
                 const isAcive = pathname === `/boards/${item.slug}`;
-                const smallText = item.name.length >= 20 ? 'text-sm' : 'text-lg'
+                const smallText =
+                  item.name.length >= 20 ? "text-sm" : "text-lg";
                 return (
                   <button
                     onClick={() => router.push(`/boards/${item.slug}`)}
@@ -96,9 +101,11 @@ export default function SideNav() {
 
           <div className="px-5">
             <button
-              onClick={() => setDarkMode(prev => !prev)}
+              onClick={() => setDarkMode((prev) => !prev)}
               className={`w-[80%] h-[50px] rounded-lg ${
-                darkMode ? "bg-gray-200 text-black font-medium" : "bg-black text-white font-medium"
+                darkMode
+                  ? "bg-gray-200 text-black font-medium"
+                  : "bg-black text-white font-medium"
               } `}
             >
               {" "}

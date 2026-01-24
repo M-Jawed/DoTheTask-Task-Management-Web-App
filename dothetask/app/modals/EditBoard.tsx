@@ -35,7 +35,7 @@ export default function EditBoard({
   const [columns, setColumns] = useState<Columns[]>(currentBoardColumns);
   const { getBoards, handleNewColumn, newColumnField, resetNewColumnField } =
     useBoard();
-  const {darkMode} = useDarkMode()
+  const { darkMode } = useDarkMode();
   const router = useRouter();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function EditBoard({
 
   const handleEdit = async (
     prevState: { boardName: string },
-    formData: FormData
+    formData: FormData,
   ): Promise<{ boardName: string; message?: string }> => {
     const boardName = formData.get("boardName") as string;
     const trimmedName = boardName.trim() || "";
@@ -83,10 +83,10 @@ export default function EditBoard({
       const data = await res.json();
 
       if (hasNewColumns) {
-        await handleNewColumn();
+        handleNewColumn();
       }
 
-      await getBoards();
+      getBoards();
       closeEditModal();
 
       if (data.slug) {
@@ -117,7 +117,9 @@ export default function EditBoard({
           : "hidden"
       }
     >
-      <div className={`${darkMode ? 'bg-[#222831] text-white' : 'bg-white'} w-[40%] flex flex-col items-start px-10 py-10 rounded-lg`}>
+      <div
+        className={`${darkMode ? "bg-[#222831] text-white" : "bg-white"} w-[40%] flex flex-col items-start px-10 py-10 rounded-lg`}
+      >
         <div className="flex items-center justify-between w-full">
           <h1 className="text-xl font-medium">Edit Board</h1>
           <RiCloseLargeFill
