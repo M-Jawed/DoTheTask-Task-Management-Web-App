@@ -25,6 +25,8 @@ DoTheTask is a simple CRUD todo web app where users can come and create boards, 
    - cd dothetask
 - Install the dependencies
   - npm install
+- Create an env file
+  - Create an env file and put your SUPABASE_URL and SUPABASE_KEY in it
 - Go to the backend folder
   - cd dothetask then cd backend
 - Install the dependencies in the backend folder
